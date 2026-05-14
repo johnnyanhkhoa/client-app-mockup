@@ -67,9 +67,17 @@
 
     const title = document.createElement('div');
     title.className = 'sidebar-title';
+
+    // Build correct logo path based on current URL
+    const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html');
+    const logoPath = isRoot ? 'onboarding/assets/logo.png' : '../onboarding/assets/logo.png';
+
     title.innerHTML = `
-      <span style="color:#00B894">R2O</span> Client App
-      <span style="font-size:9px;color:rgba(255,255,255,0.3);display:block;font-weight:600;margin-top:2px">Interactive Mockup</span>`;
+      <img src="${logoPath}" alt="Rent2Own"
+           style="max-width:130px;max-height:44px;object-fit:contain;display:block;margin-bottom:6px"
+           onerror="this.style.display='none';document.getElementById('sb-logo-fb').style.display='block'"/>
+      <div id="sb-logo-fb" style="display:none;color:#00B894;font-family:'Nunito',sans-serif;font-weight:900;font-size:16px">R2O</div>
+      <span style="font-size:9px;color:rgba(255,255,255,0.3);display:block;font-weight:600">Client App · Interactive Mockup</span>`;
     sidebar.appendChild(title);
 
     screens.forEach(s => {
