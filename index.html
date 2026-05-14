@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O Client App — Mockup</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+body{margin:0;padding:0;min-height:100vh;background:#1A1A2E;display:flex;align-items:center;justify-content:center;font-family:'Nunito Sans',sans-serif}
+.wrap{text-align:center;padding:40px 24px}
+.logo{font-family:'Nunito',sans-serif;font-size:36px;font-weight:900;color:white;margin-bottom:4px}
+.logo span{color:#00B894}
+.sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:40px}
+.btn-start{display:inline-block;background:#00B894;color:white;font-size:16px;font-weight:700;padding:16px 48px;border-radius:14px;text-decoration:none;letter-spacing:0.3px;transition:opacity .2s}
+.btn-start:active{opacity:0.85}
+.version{margin-top:20px;font-size:12px;color:rgba(255,255,255,0.3)}
+
+/* Quick links */
+.links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:32px;max-width:360px}
+.link-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);font-size:12px;font-weight:600;padding:8px 16px;border-radius:8px;text-decoration:none;transition:background .2s}
+.link-btn:hover{background:rgba(255,255,255,0.15)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img src="onboarding/assets/logo.png" alt="Rent2Own"
+       style="max-width:180px;max-height:80px;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto"
+       onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'" />
+  <div id="logo-fallback" style="display:none" class="logo">Rent<span>2</span>Own</div>
+  <div class="sub">Client App — Interactive Mockup v2.4.1</div>
+
+  <a class="btn-start" href="onboarding/ob1-splash.html">Launch App</a>
+
+  <div class="links">
+    <a class="link-btn" href="login/login.html">Login</a>
+    <a class="link-btn" href="signup/signup.html">Sign Up</a>
+    <a class="link-btn" href="home/home.html">Home</a>
+    <a class="link-btn" href="loan/loan-detail.html">Loan Detail</a>
+    <a class="link-btn" href="payment/payment.html">Payment</a>
+    <a class="link-btn" href="loyalty/loyalty.html">Loyalty</a>
+    <a class="link-btn" href="alerts/alerts.html">Alerts</a>
+    <a class="link-btn" href="profile/profile.html">Profile</a>
+  </div>
+
+  <div class="version">Rent2Own Myanmar · Internal Mockup Only</div>
+</div>
+</body>
+</html>
