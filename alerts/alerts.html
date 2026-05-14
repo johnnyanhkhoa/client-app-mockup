@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Notifications</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.topbar{padding:12px 16px 0;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:var(--text)}
+
+/* Tab bar — pill style */
+.tab-bar{display:flex;margin:10px 16px 0;gap:4px;flex-shrink:0}
+.tab{flex:1;text-align:center;padding:9px 4px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);transition:all .2s;position:relative;white-space:nowrap}
+.tab.active{background:var(--white);color:var(--text);font-weight:700;border-color:var(--teal);box-shadow:0 1px 4px rgba(0,184,148,0.15)}
+.tab-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:white;font-size:9px;font-weight:800;border-radius:10px;padding:1px 5px;margin-left:3px;vertical-align:middle}
+
+/* Notification list */
+.body{flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 0;position:relative}
+.body::-webkit-scrollbar{display:none}
+
+/* Date separator */
+.date-sep{padding:6px 16px;font-size:11px;font-weight:700;color:var(--text3);background:var(--bg)}
+
+/* Notification item */
+.notif-item{display:flex;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;align-items:flex-start}
+.notif-item:active{background:var(--bg)}
+.notif-item.unread{background:#FAFFFE}
+
+/* Unread dot */
+.unread-dot{width:8px;height:8px;border-radius:50%;background:#3B82F6;position:absolute;left:6px;top:18px;flex-shrink:0}
+
+/* Avatar / icon */
+.notif-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notif-avatar.teal{background:var(--teal)}
+.notif-avatar.bell{background:var(--bg);border:1.5px solid var(--border)}
+
+.notif-content{flex:1;min-width:0}
+.notif-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.notif-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.notif-time{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* Floating chat bubble */
+.chat-bubble{position:absolute;bottom:16px;right:16px;width:48px;height:48px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,184,148,0.4);transition:transform .2s}
+.chat-bubble:active{transform:scale(0.92)}
+
+/* Bottom nav */
+.bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding:8px 0 16px;flex-shrink:0}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600}
+.ni.active{color:var(--teal)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='../home/home.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Notifications</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <div class="tab active" id="tab-all" onclick="switchTab('all')">All</div>
+      <div class="tab" id="tab-news" onclick="switchTab('news')">
+        News <span class="tab-badge">120+</span>
+      </div>
+      <div class="tab" id="tab-remind" onclick="switchTab('remind')">Reminders</div>
+    </div>
+
+    <div class="body" id="notifBody">
+      <!-- Injected by JS -->
+      <div class="chat-bubble" onclick="location.href='chat.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M4 4H18C18.552 4 19 4.448 19 5V14C19 14.552 18.552 15 18 15H7L3 19V5C3 4.448 3.448 4 4 4Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <div class="ni" onclick="location.href='../home/home.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3L19 9.5V19C19 19.552 18.552 20 18 20H14V15H8V20H4C3.448 20 3 19.552 3 19V9.5Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </div>
+      <div class="ni" onclick="location.href='../loyalty/loyalty.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L13.5 8H20L14.5 12L16.5 18.5L11 15L5.5 18.5L7.5 12L2 8H8.5L11 2Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Loyalty</span>
+      </div>
+      <div class="ni" onclick="location.href='../payment/payment.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="14" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M2 9H20" stroke="#9CA3AF" stroke-width="1.5"/></svg>
+        <span>Payment</span>
+      </div>
+      <div class="ni" onclick="location.href='../loan/loan-detail.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="2" width="14" height="18" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M8 7H14M8 11H14M8 15H11" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Contract</span>
+      </div>
+      <div class="ni" onclick="location.href='../profile/profile.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 19C3 15.686 6.686 13 11 13C15.314 13 19 15.686 19 19" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const allNotifs = [
+  {
+    date: '24 Apr 2026',
+    items: [
+      {
+        type: 'loyalty', unread: true,
+        name: "You're eligible for Loyalty Loan!",
+        preview: "Congratulations! You can now apply for R2O's exclusive Loyalty Loan. Tap to learn more and start your application.",
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'news'
+      },
+      {
+        type: 'bell', unread: false,
+        name: 'Payment Reminder',
+        preview: 'Your next installment of 65,000 MMK is due on 14 May 2026. Pay on time to keep your loyalty streak.',
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'remind'
+      }
+    ]
+  },
+  {
+    date: '29 Apr 2026',
+    items: [
+      {
+        type: 'bell', unread: false,
+        name: 'New Payment Methods Added',
+        preview: 'KBZ Pay and Wave Money are now available for instant payment. Try them for faster transactions.',
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'news'
+      },
+      {
+        type: 'bell', unread: false,
+        name: 'Payment Confirmed',
+        preview: '65,000 MMK received for March installment via KBZ Pay. Thank you for paying on time!',
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'remind'
+      }
+    ]
+  },
+  {
+    date: '2 Apr 2026',
+    items: [
+      {
+        type: 'bell', unread: false,
+        name: 'App Update Available',
+        preview: 'R2O Client App v1.1 is ready. Update now for improved performance and new features.',
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'news'
+      },
+      {
+        type: 'bell', unread: false,
+        name: 'Payment Due Tomorrow',
+        preview: '65,000 MMK due on 14 Apr 2026. Pay now to avoid late fees and maintain your loyalty streak.',
+        time: '7:00 PM',
+        link: 'notif-detail.html',
+        cat: 'remind'
+      }
+    ]
+  }
+];
+
+let currentTab = 'all';
+
+function switchTab(t) {
+  currentTab = t;
+  ['all','news','remind'].forEach(x => {
+    document.getElementById('tab-' + x).className = 'tab' + (x===t ? ' active' : '');
+  });
+  renderNotifs();
+}
+
+function renderNotifs() {
+  const body = document.getElementById('notifBody');
+  const bubble = body.querySelector('.chat-bubble');
+  body.innerHTML = '';
+  body.appendChild(bubble);
+
+  let hasAny = false;
+  allNotifs.forEach(group => {
+    const filtered = currentTab==='all' ? group.items : group.items.filter(i => i.cat===currentTab);
+    if (!filtered.length) return;
+    hasAny = true;
+
+    const sep = document.createElement('div');
+    sep.className = 'date-sep';
+    sep.textContent = group.date;
+    body.insertBefore(sep, bubble);
+
+    filtered.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'notif-item' + (item.unread ? ' unread' : '');
+      el.onclick = () => location.href = item.link;
+
+      const avatarContent = item.type === 'loyalty'
+        ? `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1L12.5 7H19L13.5 11L15.5 17.5L10 14L4.5 17.5L6.5 11L1 7H7.5L10 1Z" fill="white"/></svg>`
+        : `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C7.239 2 5 4.239 5 7V12L3 14V15H17V14L15 12V7C15 4.239 12.761 2 10 2Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 15C8 16.105 8.895 17 10 17C11.105 17 12 16.105 12 15" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+      el.innerHTML = `
+        ${item.unread ? '<div class="unread-dot"></div>' : ''}
+        <div class="notif-avatar ${item.type === 'loyalty' ? 'teal' : 'bell'}">${avatarContent}</div>
+        <div class="notif-content">
+          <div class="notif-name">${item.name}</div>
+          <div class="notif-preview">${item.preview}</div>
+          <div class="notif-time">${item.time}</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:4px"><path d="M5 10L9 7L5 4" stroke="#D1D5DB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      `;
+      body.insertBefore(el, bubble);
+    });
+  });
+
+  if (!hasAny) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'text-align:center;padding:40px 20px;color:var(--text3);font-size:13px';
+    empty.innerHTML = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="display:block;margin:0 auto 12px"><circle cx="20" cy="20" r="18" stroke="#E5E7EB" stroke-width="2"/><path d="M20 10C15.582 10 12 13.582 12 18V26L10 28V29H30V28L28 26V18C28 13.582 24.418 10 20 10Z" stroke="#D1D5DB" stroke-width="1.5"/></svg>No notifications`;
+    body.insertBefore(empty, bubble);
+  }
+}
+
+renderNotifs();
+</script>
+</body>
+</html>

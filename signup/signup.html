@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R2O — Sign Up</title>
+<link rel="stylesheet" href="../shared.css" />
+<style>
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+
+.content {
+  padding: 24px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.heading {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.subheading {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+.lbl {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lbl-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.inp {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: 'Nunito Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.inp:focus { border-color: var(--teal); }
+.inp::placeholder { color: var(--text3); }
+
+/* NRC row */
+.nrc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nrc-state {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.nrc-slash { font-size: 18px; color: var(--text3); flex-shrink: 0; }
+.nrc-township {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 8px;
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 600;
+}
+.nrc-type {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 8px;
+  font-size: 13px;
+  color: var(--text);
+  width: 56px;
+  text-align: center;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.nrc-number {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 12px;
+  font-size: 14px;
+  color: var(--text);
+  flex: 1.2;
+  letter-spacing: 2px;
+  font-weight: 600;
+  min-width: 0;
+  font-family: 'Nunito', sans-serif;
+}
+.nrc-number::placeholder { color: var(--text3); letter-spacing: 2px; }
+
+/* NRC photo upload section */
+.photo-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.photo-row {
+  display: flex;
+  gap: 10px;
+}
+
+.photo-box {
+  flex: 1;
+  background: var(--bg);
+  border: 1.5px dashed var(--border);
+  border-radius: 12px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 90px;
+}
+.photo-box:active {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+
+.photo-box svg { opacity: 0.5; }
+
+.photo-box-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Terms */
+.terms {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  margin-top: 4px;
+}
+.terms a {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 14px;
+}
+.login-link a {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Avatar icon for labels (matches wireframe style) */
+.label-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00B894, #007A63);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" fill="#9CA3AF"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.5C10.2 2.5 12.2 3.4 13.6 4.9L15 3.5C13.2 1.6 10.7 0.5 8 0.5C5.3 0.5 2.8 1.6 1 3.5L2.4 4.9C3.8 3.4 5.8 2.5 8 2.5Z" fill="#1A1A2E"/><path d="M8 5.5C9.5 5.5 10.8 6.1 11.8 7.1L13.2 5.7C11.8 4.4 10 3.5 8 3.5C6 3.5 4.2 4.4 2.8 5.7L4.2 7.1C5.2 6.1 6.5 5.5 8 5.5Z" fill="#1A1A2E"/><circle cx="8" cy="10" r="1.5" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 6C24.5 5.6 23.8 4.8 23 4.5Z" fill="#1A1A2E" fill-opacity="0.4"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="content">
+      <div class="heading">Create Account</div>
+      <div class="subheading">Please enter your personal information to continue.</div>
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <label class="lbl">
+          <div class="label-avatar">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="3.5" r="2" fill="white"/><path d="M1 9C1 7 2.8 6 5 6C7.2 6 9 7 9 9" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          Full Name
+        </label>
+        <input class="inp" type="text" placeholder="Enter your full name" />
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label class="lbl">
+          <div class="label-avatar">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="2.5" y="1" width="5" height="8" rx="1" stroke="white" stroke-width="1.2"/><circle cx="5" cy="7.5" r="0.5" fill="white"/></svg>
+          </div>
+          Phone Number
+        </label>
+        <input class="inp" type="tel" placeholder="Enter your phone number" />
+      </div>
+
+      <!-- NRC -->
+      <div class="form-group">
+        <label class="lbl">
+          <div class="label-avatar">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="2.5" width="8" height="5" rx="1" stroke="white" stroke-width="1.2"/><path d="M3 5H5M3 6.5H7" stroke="white" stroke-width="1" stroke-linecap="round"/></svg>
+          </div>
+          NRC Number
+        </label>
+        <div class="nrc-row">
+          <div class="nrc-state">12</div>
+          <div class="nrc-slash">/</div>
+          <select class="nrc-township">
+            <option>MAKHANA</option>
+            <option>LAHPUTA</option>
+            <option>TAMWE</option>
+            <option>PABEDAN</option>
+          </select>
+          <div class="nrc-type">(N)</div>
+          <input class="nrc-number" type="text" placeholder="— — — — — —" maxlength="6" />
+        </div>
+      </div>
+
+      <!-- NRC Photo -->
+      <div class="form-group">
+        <div class="photo-section-label">
+          <div class="label-avatar">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="4" r="1.5" stroke="white" stroke-width="1.2"/><path d="M1.5 8C1.5 6 3 5 5 5C7 5 8.5 6 8.5 8" stroke="white" stroke-width="1.2" stroke-linecap="round"/><path d="M3.5 1.5H6.5L7.5 3H2.5L3.5 1.5Z" stroke="white" stroke-width="1"/></svg>
+          </div>
+          NRC Card Photos
+        </div>
+        <div class="photo-row">
+          <div class="photo-box" onclick="simulateUpload(this, 'Front')">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect x="3" y="6" width="22" height="16" rx="3" stroke="#9CA3AF" stroke-width="1.5"/>
+              <circle cx="14" cy="14" r="4" stroke="#9CA3AF" stroke-width="1.5"/>
+              <path d="M10 6L11.5 4H16.5L18 6" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div class="photo-box-label">Front Side</div>
+          </div>
+          <div class="photo-box" onclick="simulateUpload(this, 'Back')">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect x="3" y="6" width="22" height="16" rx="3" stroke="#9CA3AF" stroke-width="1.5"/>
+              <circle cx="14" cy="14" r="4" stroke="#9CA3AF" stroke-width="1.5"/>
+              <path d="M10 6L11.5 4H16.5L18 6" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div class="photo-box-label">Back Side</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms -->
+      <div class="terms">
+        By continuing, you agree to our
+        <a href="#">Terms and Conditions</a> and
+        <a href="#">Privacy Policy</a>.
+      </div>
+
+      <button class="btn btn-primary" onclick="location.href='otp.html'">Next</button>
+
+      <div class="login-link">
+        Already have an account? <a href="../login/login.html">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function simulateUpload(el, side) {
+  el.style.borderColor = 'var(--teal)';
+  el.style.background = 'var(--teal-light)';
+  el.innerHTML = `
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="12" fill="#00B894" opacity="0.15"/>
+      <path d="M8 14L12 18L20 10" stroke="#00B894" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="photo-box-label" style="color:var(--teal)">${side} ✓</div>
+  `;
+}
+</script>
+</body>
+</html>

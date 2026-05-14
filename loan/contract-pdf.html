@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Contract PDF</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:#F0F2F5;overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+
+/* PDF paper */
+.pdf-body{flex:1;overflow-y:auto;padding:12px;scrollbar-width:none}
+.pdf-body::-webkit-scrollbar{display:none}
+.pdf-page{background:white;border-radius:8px;padding:28px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.1);min-height:600px}
+
+/* PDF content styles */
+.pdf-header{text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--teal)}
+.pdf-logo-text{font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--teal)}
+.pdf-logo-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.pdf-title{font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--text);text-align:center;margin:14px 0 4px}
+.pdf-subtitle{font-size:11px;color:var(--text2);text-align:center;margin-bottom:16px}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.info-item{background:#F9FAFB;border-radius:8px;padding:8px 10px}
+.info-label{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
+.info-val{font-size:12px;font-weight:700;color:var(--text)}
+
+.section-title{font-size:12px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+
+.clause{margin-bottom:10px}
+.clause-num{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:3px}
+.clause-text{font-size:11px;color:var(--text2);line-height:1.7}
+
+.schedule-mini{width:100%;border-collapse:collapse;margin:10px 0}
+.schedule-mini th{background:var(--teal);color:white;padding:6px 8px;font-size:10px;font-weight:700;text-align:left}
+.schedule-mini td{padding:6px 8px;font-size:11px;border-bottom:1px solid var(--border);color:var(--text2)}
+.schedule-mini tr:nth-child(even) td{background:#F9FAFB}
+
+.signature-section{margin-top:24px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+.sig-box{text-align:center;flex:1}
+.sig-line{height:1px;background:var(--border);margin:20px 8px 4px}
+.sig-label{font-size:10px;color:var(--text3);font-weight:600}
+
+.stamp{width:56px;height:56px;border-radius:50%;border:3px solid var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;opacity:0.6}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='loan-detail.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Contract & Terms</div>
+      <button style="background:var(--teal-light);border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;display:flex;align-items:center;gap:4px">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10V12H12V10M7 2V9M4.5 6.5L7 9L9.5 6.5" stroke="#00B894" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save
+      </button>
+    </div>
+
+    <div class="pdf-body">
+      <div class="pdf-page">
+        <!-- Header -->
+        <div class="pdf-header">
+          <div class="pdf-logo-text">Rent<span style="color:#1A1A2E">2</span>Own</div>
+          <div class="pdf-logo-sub">Myanmar Hire-Purchase Finance</div>
+        </div>
+
+        <div class="pdf-title">HIRE-PURCHASE AGREEMENT</div>
+        <div class="pdf-subtitle">Contract No: C-647244-2-11-0000</div>
+
+        <!-- Contract info grid -->
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Client Name</div><div class="info-val">Kyaw Swar Hein</div></div>
+          <div class="info-item"><div class="info-label">NRC</div><div class="info-val">12/MAKHANA(N)123456</div></div>
+          <div class="info-item"><div class="info-label">Product</div><div class="info-val">Motorcycle (Honda Wave)</div></div>
+          <div class="info-item"><div class="info-label">Contract Date</div><div class="info-val">30/01/2026</div></div>
+          <div class="info-item"><div class="info-label">Total Amount</div><div class="info-val">25,000,000 MMK</div></div>
+          <div class="info-item"><div class="info-label">Monthly Installment</div><div class="info-val">65,000 MMK</div></div>
+          <div class="info-item"><div class="info-label">Tenure</div><div class="info-val">12 Months</div></div>
+          <div class="info-item"><div class="info-label">Branch</div><div class="info-val">Yangon Central</div></div>
+        </div>
+
+        <!-- Terms -->
+        <div class="section-title">Terms & Conditions</div>
+
+        <div class="clause">
+          <div class="clause-num">1. Payment Obligation</div>
+          <div class="clause-text">The client agrees to pay monthly installments of 65,000 MMK on or before the 14th of each month. Late payments will incur a late fee of 4,000 MMK per installment.</div>
+        </div>
+        <div class="clause">
+          <div class="clause-num">2. Ownership Transfer</div>
+          <div class="clause-text">Full ownership of the product will be transferred to the client upon completion of all installment payments or upon full settlement (Option to Purchase).</div>
+        </div>
+        <div class="clause">
+          <div class="clause-num">3. Loyalty Program</div>
+          <div class="clause-text">Clients maintaining a perfect payment record for 12 consecutive months become eligible for R2O's exclusive Loyalty Loan program at preferential rates.</div>
+        </div>
+        <div class="clause">
+          <div class="clause-num">4. Early Settlement</div>
+          <div class="clause-text">The client may settle the full outstanding balance (25,000,000 MMK) at any time via Option to Purchase. Contact R2O support for the current settlement amount.</div>
+        </div>
+        <div class="clause">
+          <div class="clause-num">5. Default</div>
+          <div class="clause-text">Failure to make 3 consecutive payments will constitute default and R2O reserves the right to repossess the product in accordance with Myanmar Hire-Purchase Law.</div>
+        </div>
+
+        <!-- Mini schedule -->
+        <div class="section-title">Payment Schedule (Summary)</div>
+        <table class="schedule-mini">
+          <tr><th>#</th><th>Due Date</th><th>Amount</th><th>Status</th></tr>
+          <tr><td>1</td><td>14 Feb 2026</td><td>65,000</td><td style="color:var(--teal);font-weight:700">Paid</td></tr>
+          <tr><td>2</td><td>14 Mar 2026</td><td>65,000</td><td style="color:var(--teal);font-weight:700">Paid</td></tr>
+          <tr><td>3</td><td>14 Mar 2026</td><td>65,000</td><td style="color:var(--teal);font-weight:700">Paid</td></tr>
+          <tr><td>4</td><td>14 Apr 2026</td><td>65,000</td><td style="color:#F59E0B;font-weight:700">Due</td></tr>
+          <tr><td>5–12</td><td>14 May–Dec 2026</td><td>65,000</td><td style="color:var(--text3)">Upcoming</td></tr>
+        </table>
+
+        <!-- Signatures -->
+        <div class="signature-section">
+          <div class="sig-box">
+            <div class="stamp">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4L16.5 10H23L17.5 14L19.5 20.5L14 17L8.5 20.5L10.5 14L5 10H11.5L14 4Z" stroke="#00B894" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="sig-line"></div>
+            <div class="sig-label">R2O Authorised Signatory</div>
+          </div>
+          <div style="width:20px"></div>
+          <div class="sig-box">
+            <div style="height:56px"></div>
+            <div class="sig-line"></div>
+            <div class="sig-label">Client Signature</div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:16px;font-size:10px;color:var(--text3);line-height:1.6">
+          This is a digitally generated contract document.<br>
+          R2O Myanmar — Yangon HQ — www.r2omm.com
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

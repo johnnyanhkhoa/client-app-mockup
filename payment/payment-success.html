@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Payment Success</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--white);padding:32px 24px 40px;text-align:center}
+.check-wrap{width:100px;height:100px;position:relative;margin:0 auto 24px}
+.check-circle{width:100px;height:100px;border-radius:50%;background:var(--teal-light);animation:pop .5s cubic-bezier(.175,.885,.32,1.275) both}
+.check-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:fadeUp .3s .4s ease both;opacity:0}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translate(-50%,-40%)}to{opacity:1;transform:translate(-50%,-50%)}}
+
+.title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px}
+.subtitle{font-size:13px;color:var(--text2);margin-bottom:24px;line-height:1.6}
+
+/* Receipt mini card */
+.receipt{width:100%;background:var(--bg);border-radius:14px;padding:14px 16px;margin-bottom:24px;text-align:left}
+.receipt-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)}
+.receipt-row:last-child{border-bottom:none}
+.receipt-label{color:var(--text2)}
+.receipt-val{font-weight:700;color:var(--text)}
+.receipt-val.teal{color:var(--teal)}
+
+.btn-wrap{width:100%;display:flex;flex-direction:column;gap:10px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="check-wrap">
+      <div class="check-circle"></div>
+      <div class="check-icon">
+        <svg width="48" height="36" viewBox="0 0 48 36" fill="none">
+          <path d="M3 18L17 32L45 3" stroke="#00B894" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="title">Payment Successful!</div>
+    <div class="subtitle">Your payment has been processed.<br>An SMS confirmation will be sent shortly.</div>
+
+    <div class="receipt">
+      <div class="receipt-row"><span class="receipt-label">Amount Paid</span><span class="receipt-val" id="paidAmount">65,000 MMK</span></div>
+      <div class="receipt-row"><span class="receipt-label">Payment Method</span><span class="receipt-val">KBZ Pay</span></div>
+      <div class="receipt-row"><span class="receipt-label">Date & Time</span><span class="receipt-val">14 Apr 2026, 09:41</span></div>
+      <div class="receipt-row"><span class="receipt-label">Reference</span><span class="receipt-val" style="font-size:11px">C-647244-2-11-2601</span></div>
+      <div class="receipt-row"><span class="receipt-label">Status</span><span class="receipt-val teal">Confirmed ✓</span></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-primary" onclick="location.href='../home/home.html'">Back to Home</button>
+      <button class="btn" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text2);padding:13px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif" onclick="location.href='../loan/loan-schedule.html'">View Payment Schedule</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const amount = sessionStorage.getItem('payAmount');
+if (amount) document.getElementById('paidAmount').textContent = parseInt(amount).toLocaleString() + ' MMK';
+</script>
+</body>
+</html>

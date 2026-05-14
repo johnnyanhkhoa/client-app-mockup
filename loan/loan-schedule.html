@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Payment Schedule</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:#F0F2F5;overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+
+/* Summary strip */
+.summary{background:var(--white);padding:12px 16px;display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0}
+.sum-item{flex:1;text-align:center;border-right:1px solid var(--border)}
+.sum-item:last-child{border-right:none}
+.sum-val{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text)}
+.sum-label{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* Table header */
+.table-header{background:var(--teal);padding:10px 14px;display:flex;align-items:center;flex-shrink:0}
+.th{font-size:11px;font-weight:700;color:white}
+
+.body{flex:1;overflow-y:auto;scrollbar-width:none;background:var(--white)}
+.body::-webkit-scrollbar{display:none}
+
+.sched-row{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative}
+.sched-row:active{background:#F9FAFB}
+.sched-row.current{background:#FFFBEB}
+.sched-row.paid{background:white}
+
+.row-num{font-size:12px;font-weight:600;color:var(--text2)}
+.row-date{font-size:13px;font-weight:700}
+.row-amt{font-size:13px;font-weight:700;text-align:right}
+.row-status{text-align:right}
+
+/* Total footer */
+.total-bar{background:var(--teal);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.total-label{font-size:13px;font-weight:700;color:white}
+.total-val{font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:white}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center}
+.modal-sheet{background:white;border-radius:20px 20px 0 0;padding:20px 20px 32px;width:390px;max-width:100%}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='loan-detail.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Payment Schedule</div>
+      <div style="width:30px"></div>
+    </div>
+
+    <!-- Summary strip -->
+    <div class="summary">
+      <div class="sum-item"><div class="sum-val" style="color:var(--teal)">3</div><div class="sum-label">Paid</div></div>
+      <div class="sum-item"><div class="sum-val" style="color:#F59E0B">1</div><div class="sum-label">Due</div></div>
+      <div class="sum-item"><div class="sum-val">8</div><div class="sum-label">Upcoming</div></div>
+      <div class="sum-item"><div class="sum-val">12</div><div class="sum-label">Total</div></div>
+    </div>
+
+    <!-- Table header -->
+    <div class="table-header">
+      <div class="th" style="flex:.3">#</div>
+      <div class="th" style="flex:1.4">Due Date</div>
+      <div class="th" style="flex:1;text-align:right">Amount</div>
+      <div class="th" style="flex:1;text-align:right">Status</div>
+      <div style="width:20px"></div>
+    </div>
+
+    <div class="body" id="scheduleBody"></div>
+
+    <div class="total-bar">
+      <div class="total-label">Total Remaining</div>
+      <div class="total-val">1,524,000 MMK</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const payments = [
+  {no:1,date:'02/01/2026',amount:65000,status:'paid',via:'KBZPay',paidDate:'14 Jan 2026 | 10:22'},
+  {no:2,date:'02/02/2026',amount:65000,status:'paid',via:'KBZPay',paidDate:'14 Feb 2026 | 13:04'},
+  {no:3,date:'02/03/2026',amount:65000,status:'paid',via:'Wave Money',paidDate:'14 Mar 2026 | 09:45'},
+  {no:4,date:'02/04/2026',amount:65000,status:'due'},
+  {no:5,date:'02/05/2026',amount:65000,status:'upcoming'},
+  {no:6,date:'02/06/2026',amount:65000,status:'upcoming'},
+  {no:7,date:'02/07/2026',amount:65000,status:'upcoming'},
+  {no:8,date:'02/08/2026',amount:65000,status:'upcoming'},
+  {no:9,date:'02/09/2026',amount:65000,status:'upcoming'},
+  {no:10,date:'02/10/2026',amount:65000,status:'upcoming'},
+  {no:11,date:'02/11/2026',amount:65000,status:'upcoming'},
+  {no:12,date:'02/12/2026',amount:65000,status:'upcoming'},
+];
+
+function renderSchedule() {
+  const body = document.getElementById('scheduleBody');
+  payments.forEach(p => {
+    const row = document.createElement('div');
+    const cls = p.status==='due' ? 'sched-row current' : p.status==='paid' ? 'sched-row paid' : 'sched-row';
+    const dateColor = p.status==='paid' ? 'var(--teal)' : p.status==='due' ? '#F59E0B' : 'var(--text)';
+    const badge = p.status==='paid'
+      ? `<span style="background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px">Paid ✓</span>`
+      : p.status==='due'
+      ? `<span style="background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px">Due</span>`
+      : `<span style="font-size:11px;color:var(--text3)">Upcoming</span>`;
+    row.className = cls;
+    row.innerHTML = `
+      <div style="flex:.3" class="row-num">${p.no}</div>
+      <div style="flex:1.4;font-size:13px;font-weight:700;color:${dateColor}">${p.date}</div>
+      <div style="flex:1;text-align:right;font-size:13px;font-weight:600;color:var(--text)">${p.amount.toLocaleString()}</div>
+      <div style="flex:1;text-align:right">${badge}</div>
+      <svg style="margin-left:4px;flex-shrink:0" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 10L9 7L5 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    `;
+    row.onclick = () => showModal(p);
+    body.appendChild(row);
+  });
+}
+
+const breakdown = `
+  <div style="background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:12px">
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px">Payment Breakdown</div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Principal</span><span style="font-weight:600">60,000 MMK</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Late fee</span><span style="font-weight:600">4,000 MMK</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Other fee</span><span style="font-weight:600">1,000 MMK</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span style="color:var(--text2)">Discount</span><span style="color:var(--teal);font-weight:700">0 MMK</span></div>
+  </div>`;
+
+function showModal(p) {
+  const c = document.getElementById('modalContent');
+  if (p.status==='paid') {
+    c.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="#D1FAE5"/><path d="M6 11L9.5 14.5L16 7.5" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:15px;font-weight:800;color:#065F46;font-family:'Nunito',sans-serif">Paid</span>
+        </div>
+        <span style="font-size:18px;font-weight:900;font-family:'Nunito',sans-serif">${p.amount.toLocaleString()} MMK</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:2px">Paid on: <strong>${p.paidDate}</strong></div>
+      <div style="font-size:12px;color:var(--text2)">Via: <strong>${p.via}</strong></div>
+      ${breakdown}`;
+  } else if (p.status==='due') {
+    c.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:22px;height:22px;border-radius:50%;background:#FEF3C7;border:2px solid #F59E0B;display:flex;align-items:center;justify-content:center">
+            <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B"></div>
+          </div>
+          <span style="font-size:15px;font-weight:800;color:#92400E;font-family:'Nunito',sans-serif">Due Now</span>
+        </div>
+        <span style="font-size:18px;font-weight:900;font-family:'Nunito',sans-serif">${p.amount.toLocaleString()} MMK</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px">Due: <strong>14 April 2026</strong></div>
+      ${breakdown}
+      <button onclick="location.href='../payment/payment.html'" style="width:100%;margin-top:14px;padding:14px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif">Pay Now</button>`;
+  } else {
+    c.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="#F3F4F6"/><circle cx="11" cy="11" r="5" stroke="#9CA3AF" stroke-width="1.5"/><path d="M11 8V11L13 13" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span style="font-size:15px;font-weight:800;color:var(--text2);font-family:'Nunito',sans-serif">Upcoming</span>
+        </div>
+        <span style="font-size:18px;font-weight:900;font-family:'Nunito',sans-serif">${p.amount.toLocaleString()} MMK</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px">Scheduled: <strong>${p.date}</strong></div>
+      ${breakdown}`;
+  }
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
+renderSchedule();
+</script>
+</body>
+</html>

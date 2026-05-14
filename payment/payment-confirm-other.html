@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Payment Instructions</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+.body{flex:1;overflow-y:auto;padding:20px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+.notice{background:#FEF3C7;border-radius:12px;padding:12px 14px;display:flex;gap:10px;margin-bottom:20px;align-items:flex-start}
+.notice-text{font-size:13px;color:#92400E;line-height:1.6}
+
+.info-card{background:var(--bg);border-radius:14px;padding:14px;margin-bottom:16px}
+.info-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px;font-family:'Nunito',sans-serif}
+.info-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--text2)}
+.info-val{font-weight:700;color:var(--text);text-align:right;flex:1;margin-left:12px}
+
+.step-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--teal);color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;color:var(--text2);line-height:1.6;flex:1}
+
+.btn-wrap{padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='payment.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title" id="pageTitle">Payment Instructions</div>
+      <div style="width:30px"></div>
+    </div>
+
+    <div class="body">
+      <div class="notice">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="9" stroke="#F59E0B" stroke-width="1.5"/><path d="M10 9V13" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="7" r="0.7" fill="#F59E0B"/></svg>
+        <div class="notice-text" id="noticeText">This payment method requires visiting an agent. Follow the steps below to complete your payment.</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">Payment Details</div>
+        <div class="info-row"><span class="info-label">Amount Due</span><span class="info-val" id="amountDisplay">65,000 MMK</span></div>
+        <div class="info-row"><span class="info-label">Contract No.</span><span class="info-val">C-647244-2-11-0000</span></div>
+        <div class="info-row"><span class="info-label">Reference No.</span><span class="info-val">C-647244-2-11-2601</span></div>
+        <div class="info-row"><span class="info-label">Due Date</span><span class="info-val">14 April 2026</span></div>
+        <div class="info-row"><span class="info-label">Account Name</span><span class="info-val">R2O Myanmar Co., Ltd</span></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px">How to Pay</div>
+      <div id="stepsContainer"></div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-primary" onclick="location.href='../home/home.html'">I've Completed Payment</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const amount = sessionStorage.getItem('payAmount');
+if (amount) document.getElementById('amountDisplay').textContent = parseInt(amount).toLocaleString() + ' MMK';
+
+const method = sessionStorage.getItem('payMethod') || 'true';
+const configs = {
+  true: {
+    title: 'True Money — Instructions',
+    notice: 'True Money payments require visiting an authorized agent. The payment cannot be made directly from the app.',
+    steps: [
+      'Visit any <strong>True Money agent</strong> near you with your NRC and phone number.',
+      'Tell the agent you want to make a <strong>Hire-Purchase payment</strong> to Rent2Own Myanmar.',
+      'Provide your <strong>contract reference number: C-647244-2-11-2601</strong>.',
+      'Pay the exact amount: <strong>65,000 MMK</strong>. Partial payments are accepted.',
+      'Keep the <strong>receipt</strong> from the agent as proof of payment.',
+      'You will receive an <strong>SMS from R2O</strong> within 24 hours confirming your payment.',
+    ]
+  },
+  ok: {
+    title: 'OK Dollar — Instructions',
+    notice: 'Follow the steps below to complete your OK Dollar payment.',
+    steps: [
+      'Open your <strong>OK Dollar app</strong> on your phone.',
+      'Go to <strong>Pay Bill → Hire Purchase / Loan</strong>.',
+      'Search for <strong>"Rent2Own"</strong> in the merchant list.',
+      'Enter your reference number: <strong>C-647244-2-11-2601</strong>.',
+      'Enter the amount <strong>65,000 MMK</strong> and confirm with your OK Dollar PIN.',
+      'You will receive an <strong>SMS from R2O</strong> within 24 hours.',
+    ]
+  },
+  ctz: {
+    title: 'CTZPay — Instructions',
+    notice: 'Follow the steps below to complete your CTZPay payment.',
+    steps: [
+      'Open your <strong>CTZPay app</strong> on your phone.',
+      'Tap <strong>Transfer → Pay Merchant</strong>.',
+      'Search for <strong>"Rent2Own Myanmar"</strong>.',
+      'Enter reference: <strong>C-647244-2-11-2601</strong> and amount <strong>65,000 MMK</strong>.',
+      'Confirm payment with your CTZPay PIN or biometric.',
+      'You will receive an <strong>SMS from R2O</strong> within 24 hours.',
+    ]
+  },
+  near: {
+    title: 'Near Me — Instructions',
+    notice: 'Near Me payments must be made at a physical agent location. This cannot be done from the app.',
+    steps: [
+      'Find your nearest <strong>Near Me agent</strong> using the Near Me app or website.',
+      'Bring your <strong>NRC</strong> and <strong>phone number</strong> registered with R2O.',
+      'Tell the agent: payment for <strong>Rent2Own hire-purchase</strong>.',
+      'Provide reference: <strong>C-647244-2-11-2601</strong> and pay <strong>65,000 MMK</strong>.',
+      'Keep the receipt as proof of payment.',
+      'You will receive an <strong>SMS from R2O</strong> within 24 hours.',
+    ]
+  }
+};
+
+const cfg = configs[method] || configs['true'];
+document.getElementById('pageTitle').textContent = cfg.title;
+document.getElementById('noticeText').textContent = cfg.notice;
+
+const container = document.getElementById('stepsContainer');
+cfg.steps.forEach((s, i) => {
+  container.innerHTML += `
+    <div class="step-item">
+      <div class="step-num">${i+1}</div>
+      <div class="step-text">${s}</div>
+    </div>`;
+});
+</script>
+</body>
+</html>

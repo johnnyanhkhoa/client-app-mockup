@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Loyalty Loan</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:none;flex-shrink:0}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--text)}
+
+/* Tab bar — pill style like wireframe */
+.tab-bar{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;margin:0 16px 0;padding:3px;flex-shrink:0}
+.tab{flex:1;text-align:center;padding:9px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-radius:8px;transition:all .2s}
+.tab.active{background:var(--white);color:var(--text);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+
+.body{flex:1;overflow-y:auto;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+/* Hero image */
+.hero{width:100%;height:200px;object-fit:cover;display:block;flex-shrink:0}
+.hero-placeholder{width:100%;height:200px;background:linear-gradient(135deg,#D4B896,#C4956A);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+.content{padding:20px 16px 24px}
+
+/* Section title */
+.section-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px}
+.section-sub{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:18px}
+
+/* Challenge list */
+.challenge-list{margin-bottom:18px}
+.challenge-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.challenge-item:last-child{border-bottom:none}
+
+.challenge-check{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .3s}
+.challenge-check.done{background:var(--teal)}
+.challenge-check.pending{background:var(--bg);border:1.5px solid var(--border)}
+
+.challenge-text{flex:1}
+.challenge-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.challenge-desc{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* Status card */
+.status-card{border-radius:12px;padding:12px 14px;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start}
+.status-card.ineligible{background:#FEF3C7;border:1px solid #FDE68A}
+.status-card.eligible{background:#D1FAE5;border:1px solid #6EE7B7}
+.status-text{font-size:13px;line-height:1.6}
+.status-text.ineligible{color:#92400E}
+.status-text.eligible{color:#065F46}
+
+/* How to apply steps */
+.apply-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.apply-num{width:32px;height:32px;border-radius:50%;background:var(--teal);color:white;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Nunito',sans-serif}
+.apply-content{flex:1}
+.apply-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.apply-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.apply-img{width:100%;height:100px;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-top:8px;border:1px dashed var(--border)}
+
+/* Bottom: status text + button */
+.bottom-section{padding:0 16px 16px;flex-shrink:0}
+.apply-btn{width:100%;padding:15px;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:all .2s}
+.apply-btn.disabled{background:var(--border);color:var(--text3);cursor:default;pointer-events:none}
+.apply-btn.enabled{background:var(--teal);color:white}
+.apply-btn.enabled:active{opacity:0.85}
+
+/* Bottom nav */
+.bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding:8px 0 16px;flex-shrink:0}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;transition:color .2s}
+.ni.active{color:var(--teal)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="topbar">
+      <div class="topbar-title">Loyalty Loan Program</div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar" style="margin-bottom:0">
+      <div class="tab active" id="tab-desc" onclick="switchTab('desc')">Description</div>
+      <div class="tab" id="tab-how" onclick="switchTab('how')">How to Apply</div>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="body">
+
+      <!-- ── DESCRIPTION TAB ── -->
+      <div id="content-desc">
+        <!-- Hero image -->
+        <div style="margin:14px 16px 0;border-radius:14px;overflow:hidden;height:180px;background:linear-gradient(135deg,#D4B896 0%,#C4956A 50%,#A67C52 100%);display:flex;align-items:center;justify-content:center;position:relative">
+          <img src="assets/loyalty-hero.jpg" alt="Loyalty"
+               style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
+               onerror="this.style.display='none'" />
+          <!-- Fallback text -->
+          <!-- <div style="position:relative;text-align:center;z-index:1">
+            <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:white;letter-spacing:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3)">LOYALTY</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:4px;font-weight:600">Reward for your commitment</div>
+          </div> -->
+        </div>
+
+        <div class="content">
+          <div class="section-title">About Loyalty Loan</div>
+          <div class="section-sub">Financial regulations require us to verify your eligibility. Clients who maintain a perfect payment record become eligible for our exclusive Loyalty Loan — a special financing product at preferential rates.</div>
+
+          <!-- Challenge list — toggled by eligibility -->
+          <div class="challenge-list" id="challengeList"></div>
+
+          <!-- Status card -->
+          <div class="status-card" id="statusCard">
+            <div id="statusIcon"></div>
+            <div class="status-text" id="statusText"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HOW TO APPLY TAB ── -->
+      <div id="content-how" style="display:none">
+        <!-- Same hero -->
+        <div style="margin:14px 16px 0;border-radius:14px;overflow:hidden;height:180px;background:linear-gradient(135deg,#D4B896 0%,#C4956A 50%,#A67C52 100%);display:flex;align-items:center;justify-content:center;position:relative">
+          <img src="assets/loyalty-hero.jpg" alt="Loyalty"
+               style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
+               onerror="this.style.display='none'" />
+          <div style="position:relative;text-align:center;z-index:1">
+            <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:white;letter-spacing:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3)">LOYALTY</div>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="section-title">How to Apply</div>
+          <div class="section-sub" id="howSubtext"></div>
+
+          <!-- Steps -->
+          <div class="apply-step">
+            <div class="apply-num">1</div>
+            <div class="apply-content">
+              <div class="apply-title">Application Initiation</div>
+              <div class="apply-desc">Receive a call from our R2O officer or apply via the Zada Member link. Our team will contact you to begin the process.</div>
+              <div class="apply-img">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="4" stroke="#9CA3AF" stroke-width="1.5"/><path d="M10 16H22M16 10V22" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="apply-step">
+            <div class="apply-num">2</div>
+            <div class="apply-content">
+              <div class="apply-title">Document Submission</div>
+              <div class="apply-desc">Submit Ward Recommendation and personal documents via the official R2O Viber Chatbot or in-person at your nearest branch.</div>
+              <div class="apply-img">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="3" stroke="#9CA3AF" stroke-width="1.5"/><path d="M10 12H22M10 16H22M10 20H16" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="apply-step">
+            <div class="apply-num">3</div>
+            <div class="apply-content">
+              <div class="apply-title">Verification & Approval</div>
+              <div class="apply-desc">Our team reviews your application. Expect a confirmation call within 24 hours of document submission.</div>
+            </div>
+          </div>
+
+          <div class="apply-step">
+            <div class="apply-num">4</div>
+            <div class="apply-content">
+              <div class="apply-title">Fund Disbursement</div>
+              <div class="apply-desc">Visit your nearest R2O branch or receive funds via your selected payment channel once approved.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /body -->
+
+    <!-- Bottom: apply button -->
+    <div class="bottom-section">
+      <button class="apply-btn" id="applyBtn" onclick="applyNow()">Apply for Loyalty Loan</button>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bnav">
+      <div class="ni" onclick="location.href='../home/home.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3L19 9.5V19C19 19.552 18.552 20 18 20H14V15H8V20H4C3.448 20 3 19.552 3 19V9.5Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </div>
+      <div class="ni active">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L13.5 8H20L14.5 12L16.5 18.5L11 15L5.5 18.5L7.5 12L2 8H8.5L11 2Z" fill="#00B894" stroke="#00B894" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Loyalty</span>
+      </div>
+      <div class="ni" onclick="location.href='../payment/payment.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="14" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M2 9H20" stroke="#9CA3AF" stroke-width="1.5"/></svg>
+        <span>Payment</span>
+      </div>
+      <div class="ni" onclick="location.href='../loan/loan-detail.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="2" width="14" height="18" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M8 7H14M8 11H14M8 15H11" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Contract</span>
+      </div>
+      <div class="ni" onclick="location.href='../profile/profile.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 19C3 15.686 6.686 13 11 13C15.314 13 19 15.686 19 19" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Apply success modal -->
+<div id="applyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center" onclick="closeModal()">
+  <div onclick="event.stopPropagation()" style="background:white;border-radius:20px 20px 0 0;padding:28px 24px 40px;width:390px;text-align:center">
+    <div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px"></div>
+    <div style="width:72px;height:72px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+      <svg width="36" height="28" viewBox="0 0 36 28" fill="none"><path d="M2 14L13 25L34 2" stroke="#00B894" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px">Application Submitted!</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px">Our team will contact you within 24 hours to guide you through the next steps.</div>
+    <button onclick="closeModal();location.href='../home/home.html'" style="width:100%;padding:14px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif">Back to Home</button>
+  </div>
+</div>
+
+<script>
+// Toggle this to test both states
+// true = eligible, false = ineligible
+const IS_ELIGIBLE = false; // change to true to see eligible state
+
+const challenges = [
+  { name:'Challenge 1 — Consecutive Payments', desc:'Pay all installments on time for at least 3 consecutive months.', done: true },
+  { name:'Challenge 2 — No Late Payments', desc:'No missed or late payments in the current contract cycle.', done: true },
+  { name:'Challenge 3 — Active Contract', desc:'Your hire-purchase contract must be in active performing status.', done: true },
+  { name:'Challenge 4 — 12-Month Streak', desc:'Maintain a full 12-month on-time payment streak to unlock eligibility.', done: IS_ELIGIBLE },
+  { name:'Challenge 5 — R2O Invitation', desc:'Eligibility must be confirmed and invited by the R2O core system.', done: IS_ELIGIBLE },
+];
+
+function buildChallenges() {
+  const list = document.getElementById('challengeList');
+  list.innerHTML = challenges.map(c => `
+    <div class="challenge-item">
+      <div class="challenge-check ${c.done ? 'done' : 'pending'}">
+        ${c.done
+          ? `<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+          : `<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#D1D5DB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        }
+      </div>
+      <div class="challenge-text">
+        <div class="challenge-name" style="color:${c.done ? 'var(--text)' : 'var(--text2)'}">${c.name}</div>
+        <div class="challenge-desc">${c.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildStatusCard() {
+  const card = document.getElementById('statusCard');
+  const icon = document.getElementById('statusIcon');
+  const text = document.getElementById('statusText');
+  const btn  = document.getElementById('applyBtn');
+
+  if (IS_ELIGIBLE) {
+    card.className = 'status-card eligible';
+    icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0"><circle cx="11" cy="11" r="10" fill="#10B981"/><path d="M6 11L9.5 14.5L16 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    text.className = 'status-text eligible';
+    text.innerHTML = `<strong>You are eligible!</strong> You can now apply for the Loyalty Loan. Our team will contact you to guide you through the process.`;
+    btn.className = 'apply-btn enabled';
+  } else {
+    card.className = 'status-card ineligible';
+    icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0"><circle cx="11" cy="11" r="10" fill="#F59E0B"/><path d="M11 7V11M11 14V14.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>`;
+    text.className = 'status-text ineligible';
+    text.innerHTML = `<strong>Not eligible yet.</strong> You need to complete all 5 challenges. Keep paying on time — you're making great progress!`;
+    btn.className = 'apply-btn disabled';
+  }
+}
+
+function buildHowSubtext() {
+  const el = document.getElementById('howSubtext');
+  if (IS_ELIGIBLE) {
+    el.textContent = 'You are now eligible to apply for the Loyalty Loan. Follow the steps below to complete your application.';
+    document.getElementById('applyBtn').className = 'apply-btn enabled';
+  } else {
+    el.textContent = 'You will be notified by R2O when you become eligible. Here is how the application process works so you are prepared.';
+  }
+}
+
+function switchTab(t) {
+  document.getElementById('content-desc').style.display = t==='desc' ? 'block' : 'none';
+  document.getElementById('content-how').style.display  = t==='how'  ? 'block' : 'none';
+  document.getElementById('tab-desc').className = 'tab' + (t==='desc' ? ' active' : '');
+  document.getElementById('tab-how').className  = 'tab' + (t==='how'  ? ' active' : '');
+  document.querySelector('.body').scrollTop = 0;
+  if (t==='how') buildHowSubtext();
+}
+
+function applyNow() {
+  if (!IS_ELIGIBLE) return;
+  document.getElementById('applyModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('applyModal').style.display = 'none';
+}
+
+// Init
+buildChallenges();
+buildStatusCard();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* R2O Design System — Shared Styles */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap');
+
+:root {
+  --teal: #00B894;
+  --teal-dark: #007A63;
+  --teal-light: #E8F8F4;
+  --teal-mid: #B2DFD8;
+  --text: #1A1A2E;
+  --text2: #6B7280;
+  --text3: #9CA3AF;
+  --bg: #F7F8FA;
+  --white: #FFFFFF;
+  --border: #E5E7EB;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Phone frame */
+.phone {
+  width: 390px;
+  min-height: 844px;
+  background: var(--white);
+  border-radius: 44px;
+  border: 8px solid #111;
+  box-shadow: 0 0 0 1px #333, 0 24px 64px rgba(0,0,0,0.5);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status bar */
+.status-bar {
+  background: transparent;
+  padding: 12px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.status-bar.white { color: white; }
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Nunito Sans', sans-serif;
+  letter-spacing: 0.2px;
+  transition: transform 0.15s, opacity 0.15s;
+  padding: 16px;
+  width: 100%;
+}
+.btn:active { transform: scale(0.98); opacity: 0.9; }
+.btn-primary { background: var(--teal); color: white; }
+.btn-ghost { background: transparent; color: var(--text2); border: 1.5px solid var(--border); }
+.btn-text { background: transparent; color: var(--teal); font-size: 14px; border: none; }
+
+/* Dot indicators */
+.dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+  transition: all 0.3s;
+}
+.dot.active {
+  width: 24px;
+  background: var(--teal);
+}

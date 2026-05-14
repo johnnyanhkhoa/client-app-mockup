@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Payment</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+
+.body{flex:1;overflow-y:auto;padding:16px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+/* Amount section */
+.amount-section{margin-bottom:16px}
+.amount-label{font-size:14px;font-weight:700;color:var(--teal);margin-bottom:4px;font-family:'Nunito',sans-serif}
+.amount-sublabel{font-size:12px;color:var(--text2);margin-bottom:8px}
+.amount-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:18px;font-weight:700;color:var(--text);font-family:'Nunito',sans-serif;outline:none;transition:border .2s}
+.amount-input:focus{border-color:var(--teal)}
+.amount-input::placeholder{color:var(--text3);font-size:14px;font-weight:400}
+
+/* Breakdown */
+.breakdown{background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.breakdown-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.breakdown-total-label{font-size:13px;font-weight:700;color:var(--text2)}
+.breakdown-total-val{font-size:15px;font-weight:900;color:var(--text);font-family:'Nunito',sans-serif}
+.breakdown-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0}
+.breakdown-label{color:var(--text2)}
+.breakdown-val{font-weight:600;color:var(--text)}
+.breakdown-discount{color:var(--teal);font-weight:700}
+
+/* Section label */
+.section-label{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px}
+
+/* Integrated methods — 2 cards side by side */
+.integrated-row{display:flex;gap:10px;margin-bottom:16px}
+.method-card{flex:1;border:1.5px solid var(--border);border-radius:12px;padding:12px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;background:var(--white);position:relative}
+.method-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.method-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800}
+.method-name{font-size:13px;font-weight:700;color:var(--text);flex:1}
+.radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.radio.checked{border-color:var(--teal);background:var(--teal)}
+
+/* Other methods list */
+.other-method{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .2s;background:var(--white)}
+.other-method.selected{border-color:var(--teal);background:var(--teal-light)}
+.other-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.other-name{font-size:13px;font-weight:700;color:var(--text);flex:1}
+
+/* Pay button */
+.pay-btn-wrap{padding:14px 16px;background:var(--white);border-top:1px solid var(--border);flex-shrink:0}
+.pay-btn{width:100%;padding:15px;background:var(--border);color:var(--text3);border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:default;font-family:'Nunito Sans',sans-serif;transition:all .3s}
+.pay-btn.active{background:var(--teal);color:white;cursor:pointer}
+.pay-btn.active:active{opacity:0.85}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='../home/home.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Payment</div>
+      <div style="width:30px"></div>
+    </div>
+
+    <div class="body">
+      <!-- Amount section -->
+      <div class="amount-section">
+        <div class="amount-label">(4) Installment Payment</div>
+        <div class="amount-sublabel">Total payment amount (installment)</div>
+        <input class="amount-input" id="amountInput" type="number"
+               placeholder="Enter amount to pay"
+               oninput="onAmountChange()" />
+      </div>
+
+      <!-- Breakdown -->
+      <div class="breakdown">
+        <div class="breakdown-total-row">
+          <span class="breakdown-total-label">Total Due Amount</span>
+          <span class="breakdown-total-val">65,000 MMK</span>
+        </div>
+        <div class="breakdown-row"><span class="breakdown-label">Principal</span><span class="breakdown-val">60,000 MMK</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Late fee</span><span class="breakdown-val">4,000 MMK</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Other fee</span><span class="breakdown-val">1,000 MMK</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Discount</span><span class="breakdown-discount">0 MMK</span></div>
+      </div>
+
+      <!-- Integrated methods -->
+      <div class="section-label">Integrated Payment Methods</div>
+      <div class="integrated-row">
+        <div class="method-card" id="card-kbz" onclick="selectMethod('kbz')">
+          <div class="method-icon" style="background:#E3F0FF">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="13" rx="2" fill="#1565C0"/><path d="M2 9H20" stroke="white" stroke-width="1.5"/><circle cx="6" cy="14" r="1.5" fill="white"/></svg>
+          </div>
+          <span class="method-name">KBZ Pay</span>
+          <div class="radio" id="radio-kbz"></div>
+        </div>
+        <div class="method-card" id="card-wave" onclick="selectMethod('wave')">
+          <div class="method-icon" style="background:#FFF3E0">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="13" rx="2" fill="#E65100"/><path d="M5 11Q8 8 11 11Q14 14 17 11" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <span class="method-name">Wave Money</span>
+          <div class="radio" id="radio-wave"></div>
+        </div>
+      </div>
+
+      <!-- Other methods -->
+      <div class="section-label">Other Payment Methods</div>
+
+      <div class="other-method" id="card-true" onclick="selectMethod('true')">
+        <div class="other-icon" style="background:#FFF8E1">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" fill="#F57F17"/><path d="M7 11H15M11 7V15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <span class="other-name">True Money</span>
+        <div class="radio" id="radio-true"></div>
+      </div>
+
+      <div class="other-method" id="card-ok" onclick="selectMethod('ok')">
+        <div class="other-icon" style="background:#F3E5F5">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="4" fill="#7B1FA2"/><path d="M8 11C8 9.343 9.343 8 11 8C12.657 8 14 9.343 14 11C14 12.657 12.657 14 11 14C9.343 14 8 12.657 8 11Z" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <span class="other-name">OK $</span>
+        <div class="radio" id="radio-ok"></div>
+      </div>
+
+      <div class="other-method" id="card-ctz" onclick="selectMethod('ctz')">
+        <div class="other-icon" style="background:#E8F5E9">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="4" fill="#2E7D32"/><path d="M7 11L10 14L15 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="other-name">CTZPay</span>
+        <div class="radio" id="radio-ctz"></div>
+      </div>
+
+      <div class="other-method" id="card-near" onclick="selectMethod('near')">
+        <div class="other-icon" style="background:#E3F2FD">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7.686 3 5 5.686 5 9C5 13 11 19 11 19C11 19 17 13 17 9C17 5.686 14.314 3 11 3Z" stroke="#1565C0" stroke-width="1.5"/><circle cx="11" cy="9" r="2.5" stroke="#1565C0" stroke-width="1.5"/></svg>
+        </div>
+        <span class="other-name">Near Me</span>
+        <div class="radio" id="radio-near"></div>
+      </div>
+
+      <div style="height:8px"></div>
+    </div>
+
+    <!-- Pay button -->
+    <div class="pay-btn-wrap">
+      <button class="pay-btn" id="payBtn" onclick="goToConfirm()">Pay Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let selected = null;
+
+const methods = {
+  kbz:  { name:'KBZ Pay',    next:'payment-confirm.html' },
+  wave: { name:'Wave Money', next:'payment-confirm-wave.html' },
+  true: { name:'True Money', next:'payment-confirm-other.html' },
+  ok:   { name:'OK $',       next:'payment-confirm-other.html' },
+  ctz:  { name:'CTZPay',     next:'payment-confirm-other.html' },
+  near: { name:'Near Me',    next:'payment-confirm-other.html' },
+};
+
+function selectMethod(id) {
+  selected = id;
+  // Reset all
+  Object.keys(methods).forEach(k => {
+    const card = document.getElementById('card-' + k);
+    const radio = document.getElementById('radio-' + k);
+    card.classList.remove('selected');
+    radio.classList.remove('checked');
+    radio.innerHTML = '';
+  });
+  // Select clicked
+  document.getElementById('card-' + id).classList.add('selected');
+  const radio = document.getElementById('radio-' + id);
+  radio.classList.add('checked');
+  radio.innerHTML = `<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  updatePayBtn();
+}
+
+function onAmountChange() { updatePayBtn(); }
+
+function updatePayBtn() {
+  const btn = document.getElementById('payBtn');
+  const hasAmount = document.getElementById('amountInput').value > 0;
+  if (selected && hasAmount) {
+    btn.classList.add('active');
+  } else {
+    btn.classList.remove('active');
+  }
+}
+
+function goToConfirm() {
+  if (!selected) return;
+  const amount = document.getElementById('amountInput').value;
+  if (!amount) return;
+  sessionStorage.setItem('payMethod', selected);
+  sessionStorage.setItem('payAmount', amount);
+  location.href = methods[selected].next;
+}
+</script>
+</body>
+</html>

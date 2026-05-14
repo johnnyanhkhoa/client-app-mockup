@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Personal Information</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:#F0F2F5;overflow:hidden}
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+
+.body{flex:1;overflow-y:auto;padding:14px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+/* Profile mini card */
+.mini-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#00B894,#007A63);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0;overflow:hidden;position:relative}
+.avatar img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.mini-name{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:3px}
+.status-row{display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#10B981}
+.status-text{font-size:12px;color:#10B981;font-weight:600}
+.loyalty-badge{display:inline-flex;align-items:center;gap:4px;background:#FEF9C3;border:1px solid #FDE68A;border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700;color:#92400E}
+
+/* Info section */
+.section-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:12px;padding-top:2px;font-family:'Nunito',sans-serif}
+.info-card{background:var(--white);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.info-field{padding:14px 16px;border-bottom:1px solid var(--border)}
+.info-field:last-child{border-bottom:none}
+.field-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.field-value{font-size:14px;font-weight:600;color:var(--text);line-height:1.5}
+
+/* Edit notice */
+.edit-notice{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:16px}
+.edit-notice-text{font-size:12px;color:#1D4ED8;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='profile.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Personal Information</div>
+    </div>
+
+    <div class="body">
+      <!-- Mini profile -->
+      <div class="mini-card">
+        <div class="avatar">
+          KS
+          <img src="../onboarding/assets/avatar.jpg" alt="" onerror="this.style.display='none'"/>
+        </div>
+        <div>
+          <div class="mini-name">Kyaw Swar Hein</div>
+          <div class="status-row">
+            <div class="status-dot"></div>
+            <div class="status-text">In Contract</div>
+          </div>
+          <div class="loyalty-badge">🏅 Eligible for Loyalty Loan</div>
+        </div>
+      </div>
+
+      <!-- Edit notice -->
+      <div class="edit-notice">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="9" cy="9" r="8" stroke="#3B82F6" stroke-width="1.3"/><path d="M9 8V12" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="6" r="0.7" fill="#3B82F6"/></svg>
+        <div class="edit-notice-text">To update your information, please contact R2O support via <strong>Live Chat</strong>. Changes are processed within 1–3 business days.</div>
+      </div>
+
+      <div class="section-title">Personal Details</div>
+      <div class="info-card">
+        <div class="info-field">
+          <div class="field-label">Phone Number</div>
+          <div class="field-value">09 123 456 789</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">NRC Number</div>
+          <div class="field-value">12/MAKHANA(N)123456</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Occupation</div>
+          <div class="field-value">UI/UX Designer</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Monthly Salary</div>
+          <div class="field-value">450,000 MMK</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Family Member</div>
+          <div class="field-value">Daw Mya (Mother)</div>
+        </div>
+      </div>
+
+      <div class="section-title">Address</div>
+      <div class="info-card">
+        <div class="info-field">
+          <div class="field-label">Current Address</div>
+          <div class="field-value">No. 123, Bogyoke Road, Pabedan Township, Yangon, Myanmar.</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Permanent Address</div>
+          <div class="field-value">No. 123, Bogyoke Road, Pabedan Township, Yangon, Myanmar.</div>
+        </div>
+      </div>
+
+      <div class="section-title">Contract History</div>
+      <div class="info-card">
+        <div class="info-field">
+          <div class="field-label">Times Purchased with Rent2Own</div>
+          <div class="field-value">1</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Insured Person 1</div>
+          <div class="field-value">Ma Thandar (Sister)</div>
+        </div>
+        <div class="info-field">
+          <div class="field-label">Co-insured Contracts</div>
+          <div class="field-value" style="font-size:13px;font-family:monospace">143098304982-34982-3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

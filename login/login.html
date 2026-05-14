@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R2O — Login</title>
+<link rel="stylesheet" href="../shared.css" />
+<style>
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  padding: 0 28px;
+}
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0 28px;
+}
+
+.logo-area img {
+  max-width: 160px;
+  max-height: 72px;
+  object-fit: contain;
+}
+
+.logo-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subheading {
+  font-size: 13px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.lbl {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* NRC input row — matches wireframe exactly */
+.nrc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nrc-state {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nrc-slash {
+  font-size: 18px;
+  color: var(--text3);
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+.nrc-township {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 10px;
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 600;
+}
+
+.nrc-type {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 8px;
+  font-size: 13px;
+  color: var(--text);
+  width: 62px;
+  text-align: center;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.nrc-number {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  font-size: 14px;
+  color: var(--text);
+  flex: 1.2;
+  letter-spacing: 2px;
+  font-weight: 600;
+  min-width: 0;
+  font-family: 'Nunito', sans-serif;
+}
+
+.nrc-number::placeholder {
+  color: var(--text3);
+  letter-spacing: 3px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0 24px;
+}
+
+.disclaimer {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.disclaimer a {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+.signup-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 16px;
+  padding-bottom: 32px;
+}
+
+.signup-link a {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" fill="#9CA3AF"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.5C10.2 2.5 12.2 3.4 13.6 4.9L15 3.5C13.2 1.6 10.7 0.5 8 0.5C5.3 0.5 2.8 1.6 1 3.5L2.4 4.9C3.8 3.4 5.8 2.5 8 2.5Z" fill="#1A1A2E"/><path d="M8 5.5C9.5 5.5 10.8 6.1 11.8 7.1L13.2 5.7C11.8 4.4 10 3.5 8 3.5C6 3.5 4.2 4.4 2.8 5.7L4.2 7.1C5.2 6.1 6.5 5.5 8 5.5Z" fill="#1A1A2E"/><circle cx="8" cy="10" r="1.5" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 6C24.5 5.6 23.8 4.8 23 4.5Z" fill="#1A1A2E" fill-opacity="0.4"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <!-- Logo -->
+    <div class="logo-area">
+      <img src="../onboarding/assets/logo.png" alt="Rent2Own"
+           onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex';" />
+      <div id="logo-fb" class="logo-fallback">
+        <svg width="140" height="56" viewBox="0 0 140 56" fill="none">
+          <text x="0" y="30" font-family="Georgia,serif" font-size="28" font-weight="700" fill="#00B894">Rent</text>
+          <path d="M8 44 Q20 34 32 44 Q44 54 56 44" stroke="#00B894" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text x="38" y="54" font-family="Georgia,serif" font-size="28" font-weight="700" fill="#1a237e">Own</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="heading">Welcome to Rent2Own</div>
+    <div class="subheading">Please enter your NRC number to continue</div>
+
+    <div class="form-group">
+      <label class="lbl">NRC Number</label>
+      <div class="nrc-row">
+        <div class="nrc-state">12</div>
+        <div class="nrc-slash">/</div>
+        <select class="nrc-township">
+          <option>MAKHANA</option>
+          <option>LAHPUTA</option>
+          <option>TAMWE</option>
+          <option>PABEDAN</option>
+        </select>
+        <div class="nrc-type">(N)</div>
+        <input class="nrc-number" type="text" placeholder="— — — — — —" maxlength="6" />
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="disclaimer">
+      By logging in, you agree to our
+      <a href="#">Terms of Service</a> and
+      <a href="#">Privacy Policy</a>.
+    </div>
+
+    <button class="btn btn-primary" onclick="location.href='pin-login.html'">Login</button>
+
+    <div class="signup-link">
+      Don't have an account? <a href="../signup/signup.html">Sign Up</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

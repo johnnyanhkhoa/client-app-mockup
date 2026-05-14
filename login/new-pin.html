@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R2O — Set New PIN</title>
+<link rel="stylesheet" href="../shared.css" />
+<style>
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+}
+.topbar {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+}
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+.back-btn:hover { background: var(--bg); }
+
+.content {
+  flex: 1;
+  padding: 8px 28px 0;
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.subheading {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Step indicator */
+.step-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+/* PIN boxes */
+.pin-boxes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.pin-box {
+  flex: 1;
+  height: 52px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pin-box.filled { border-color: var(--teal); background: var(--white); }
+.pin-box.active { border-color: var(--teal); background: var(--white); }
+.pin-box.confirm-active { border-color: var(--amber); }
+.pin-box.confirm-filled { border-color: var(--amber); background: var(--white); }
+.pin-box.match { border-color: var(--teal); background: #D1FAE5; }
+.pin-box.mismatch { border-color: var(--red); background: #FEE2E2; }
+
+.match-msg {
+  font-size: 12px;
+  margin-bottom: 16px;
+  min-height: 18px;
+  font-weight: 600;
+}
+.match-msg.ok { color: var(--teal); }
+.match-msg.err { color: var(--red); }
+
+.divider-section {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0 14px;
+}
+
+/* Keypad */
+.keypad {
+  flex-shrink: 0;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+}
+.keypad-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.keypad-row:last-child { border-bottom: none; }
+.key {
+  flex: 1;
+  padding: 16px 0;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition: background 0.15s;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.key:last-child { border-right: none; }
+.key:active { background: var(--bg); }
+.key-sub { font-size: 10px; color: var(--text3); font-weight: 400; }
+.key-empty { background: var(--bg); cursor: default; }
+.key-empty:active { background: var(--bg); }
+.key-delete { background: var(--bg); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" fill="#9CA3AF"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.5C10.2 2.5 12.2 3.4 13.6 4.9L15 3.5C13.2 1.6 10.7 0.5 8 0.5C5.3 0.5 2.8 1.6 1 3.5L2.4 4.9C3.8 3.4 5.8 2.5 8 2.5Z" fill="#1A1A2E"/><path d="M8 5.5C9.5 5.5 10.8 6.1 11.8 7.1L13.2 5.7C11.8 4.4 10 3.5 8 3.5C6 3.5 4.2 4.4 2.8 5.7L4.2 7.1C5.2 6.1 6.5 5.5 8 5.5Z" fill="#1A1A2E"/><circle cx="8" cy="10" r="1.5" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 6C24.5 5.6 23.8 4.8 23 4.5Z" fill="#1A1A2E" fill-opacity="0.4"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='forgot-otp.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="content">
+      <div class="heading">Set New PIN</div>
+      <div class="subheading">
+        Enter a new 6-digit PIN. You will use this to log in to your account.
+      </div>
+
+      <!-- New PIN -->
+      <div class="step-label">New PIN</div>
+      <div class="pin-boxes" id="newBoxes">
+        <div class="pin-box" id="n0"></div>
+        <div class="pin-box active" id="n1"></div>
+        <div class="pin-box" id="n2"></div>
+        <div class="pin-box" id="n3"></div>
+        <div class="pin-box" id="n4"></div>
+        <div class="pin-box" id="n5"></div>
+      </div>
+
+      <div class="divider-section"></div>
+
+      <!-- Confirm PIN -->
+      <div class="step-label" style="color:var(--amber)">Confirm PIN</div>
+      <div class="pin-boxes" id="confirmBoxes">
+        <div class="pin-box" id="c0"></div>
+        <div class="pin-box" id="c1"></div>
+        <div class="pin-box" id="c2"></div>
+        <div class="pin-box" id="c3"></div>
+        <div class="pin-box" id="c4"></div>
+        <div class="pin-box" id="c5"></div>
+      </div>
+
+      <div class="match-msg" id="matchMsg"></div>
+
+      <button class="btn btn-primary" id="submitBtn" onclick="submitPin()" style="opacity:0.4;pointer-events:none">
+        Reset PIN
+      </button>
+    </div>
+
+    <div class="keypad">
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('1')">1<span class="key-sub"> </span></div>
+        <div class="key" onclick="tapKey('2')">2<span class="key-sub">ABC</span></div>
+        <div class="key" onclick="tapKey('3')">3<span class="key-sub">DEF</span></div>
+      </div>
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('4')">4<span class="key-sub">GHI</span></div>
+        <div class="key" onclick="tapKey('5')">5<span class="key-sub">JKL</span></div>
+        <div class="key" onclick="tapKey('6')">6<span class="key-sub">MNO</span></div>
+      </div>
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('7')">7<span class="key-sub">PQRS</span></div>
+        <div class="key" onclick="tapKey('8')">8<span class="key-sub">TUV</span></div>
+        <div class="key" onclick="tapKey('9')">9<span class="key-sub">WXYZ</span></div>
+      </div>
+      <div class="keypad-row">
+        <div class="key key-empty"></div>
+        <div class="key" onclick="tapKey('0')">0</div>
+        <div class="key key-delete" onclick="deleteKey()">
+          <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+            <path d="M9 1H22C22.552 1 23 1.448 23 2V16C23 16.552 22.552 17 22 17H9L1 9L9 1Z" stroke="#6B7280" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M19 6L13 12M13 6L19 12" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Stage: 'new' = filling new PIN, 'confirm' = filling confirm PIN
+let stage = 'new';
+let newPin = ['','','','','',''];
+let confirmPin = ['','','','','',''];
+let newPos = 0;
+let confirmPos = 0;
+
+function renderAll() {
+  // New PIN boxes
+  for (let i = 0; i < 6; i++) {
+    const b = document.getElementById('n' + i);
+    b.className = 'pin-box';
+    if (newPin[i]) { b.textContent = '•'; b.classList.add('filled'); }
+    else if (i === newPos && stage === 'new') { b.textContent = ''; b.classList.add('active'); }
+    else { b.textContent = ''; }
+  }
+  // Confirm PIN boxes
+  for (let i = 0; i < 6; i++) {
+    const b = document.getElementById('c' + i);
+    b.className = 'pin-box';
+    if (confirmPin[i]) {
+      b.textContent = '•';
+      if (confirmPos === 6) {
+        // Check match
+        b.classList.add(newPin.join('') === confirmPin.join('') ? 'match' : 'mismatch');
+      } else {
+        b.classList.add('confirm-filled');
+      }
+    } else if (i === confirmPos && stage === 'confirm') {
+      b.textContent = '';
+      b.classList.add('confirm-active');
+    } else {
+      b.textContent = '';
+    }
+  }
+
+  // Match message + submit button
+  const msg = document.getElementById('matchMsg');
+  const btn = document.getElementById('submitBtn');
+  if (confirmPos === 6) {
+    if (newPin.join('') === confirmPin.join('')) {
+      msg.textContent = '✓ PINs match';
+      msg.className = 'match-msg ok';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    } else {
+      msg.textContent = '✗ PINs do not match';
+      msg.className = 'match-msg err';
+      btn.style.opacity = '0.4';
+      btn.style.pointerEvents = 'none';
+    }
+  } else {
+    msg.textContent = '';
+    btn.style.opacity = '0.4';
+    btn.style.pointerEvents = 'none';
+  }
+}
+
+function tapKey(d) {
+  if (stage === 'new') {
+    if (newPos >= 6) return;
+    newPin[newPos] = d; newPos++;
+    if (newPos === 6) {
+      stage = 'confirm';
+    }
+  } else {
+    if (confirmPos >= 6) return;
+    confirmPin[confirmPos] = d; confirmPos++;
+  }
+  renderAll();
+}
+
+function deleteKey() {
+  if (stage === 'confirm' && confirmPos > 0) {
+    confirmPos--; confirmPin[confirmPos] = '';
+  } else if (stage === 'confirm' && confirmPos === 0) {
+    stage = 'new'; newPos--; newPin[newPos] = '';
+  } else if (stage === 'new' && newPos > 0) {
+    newPos--; newPin[newPos] = '';
+  }
+  renderAll();
+}
+
+function submitPin() {
+  if (newPin.join('') !== confirmPin.join('')) return;
+  location.href = 'login.html';
+}
+
+renderAll();
+</script>
+</body>
+</html>

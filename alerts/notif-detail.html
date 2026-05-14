@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — Notification Detail</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.topbar{padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;color:var(--text2)}
+
+.body{flex:1;overflow-y:auto;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+.title{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:var(--text);padding:20px 16px 0;line-height:1.35}
+
+.hero{width:calc(100% - 32px);margin:16px 16px 0;border-radius:14px;overflow:hidden;height:200px;background:linear-gradient(135deg,#D4B896,#C4956A);position:relative}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:white;letter-spacing:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+
+.body-text{padding:16px 16px 6px;font-size:14px;color:var(--text2);line-height:1.8}
+.notif-date{padding:4px 16px 20px;font-size:12px;color:var(--text3);font-weight:600}
+
+.btn-wrap{padding:14px 16px 20px;border-top:1px solid var(--border);flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='alerts.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">Notification Detail</div>
+    </div>
+
+    <div class="body">
+      <div class="title">You're Eligible for the Loyalty Loan Program!</div>
+
+      <div class="hero">
+        <img src="../loyalty/assets/loyalty-hero.jpg" alt="Loyalty"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="hero-fallback" style="display:none">LOYALTY</div>
+      </div>
+
+      <div class="body-text">
+        Congratulations! You have now paid on time consistently and become eligible for R2O's exclusive <strong>Loyalty Loan Program</strong>. This is a special financing product designed as a reward for your commitment.<br><br>
+        You can now apply for the Loyalty Loan. Our team will contact you to guide you through the process. Loyalty Loan offers lower interest rates exclusively for our most loyal clients.
+      </div>
+      <div class="notif-date">July 1, 2025</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-primary" onclick="location.href='../loyalty/loyalty.html'">Apply for Loyalty Loan</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

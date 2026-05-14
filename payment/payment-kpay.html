@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>R2O — KBZPay</title>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+.screen{flex:1;display:flex;flex-direction:column;background:white;overflow:hidden}
+
+/* Simulated browser/webview bar */
+.webview-bar{background:#F0F2F5;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);flex-shrink:0}
+.webview-url{flex:1;background:white;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.webview-close{background:none;border:none;cursor:pointer;padding:4px;color:var(--text2);font-size:18px;line-height:1}
+
+/* KBZPay simulated UI */
+.kpay-header{background:#1565C0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.kpay-title{font-size:16px;font-weight:700;color:white}
+.kpay-logo{font-size:13px;font-weight:800;color:white;opacity:0.9}
+
+.kpay-body{flex:1;overflow-y:auto;padding:20px 16px;scrollbar-width:none;background:#F8FAFF}
+.kpay-body::-webkit-scrollbar{display:none}
+
+/* Amount display */
+.kpay-amount-card{background:white;border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;box-shadow:0 2px 8px rgba(21,101,192,0.1);border:1px solid #E3F0FF}
+.kpay-amount-label{font-size:12px;color:#5C7699;margin-bottom:4px;font-weight:600}
+.kpay-amount-val{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:#1565C0;margin-bottom:8px}
+.kpay-merchant{font-size:12px;color:#6B7280;margin-bottom:2px}
+.kpay-ref{font-size:11px;color:#9CA3AF}
+
+/* Info rows */
+.kpay-info{background:white;border-radius:12px;padding:0;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.kpay-info-row{display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #F3F4F6;font-size:13px}
+.kpay-info-row:last-child{border-bottom:none}
+.kpay-info-label{color:#6B7280}
+.kpay-info-val{font-weight:700;color:#1A1A2E}
+
+/* PIN pad */
+.pin-display{display:flex;gap:10px;justify-content:center;margin:16px 0}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid #1565C0;background:transparent;transition:background .2s}
+.pin-dot.filled{background:#1565C0}
+
+.kpay-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E5E7EB;border-radius:12px;overflow:hidden;margin-bottom:16px}
+.kpay-key{background:white;padding:16px;text-align:center;font-size:20px;font-weight:500;color:#1A1A2E;cursor:pointer;transition:background .15s;font-family:'Nunito',sans-serif}
+.kpay-key:active{background:#F3F4F6}
+.kpay-key.empty{background:#F9FAFB;cursor:default}
+.kpay-key-sub{font-size:9px;color:#9CA3AF;display:block;font-weight:500}
+
+/* Confirm btn */
+.kpay-confirm{width:100%;padding:15px;background:#1565C0;color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:opacity .2s}
+.kpay-confirm:active{opacity:0.85}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <!-- Simulated WebView bar -->
+    <div class="webview-bar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="webview-url">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 2C5 1.448 5.448 1 6 1C6.552 1 7 1.448 7 2V4C7 4.552 6.552 5 6 5C5.448 5 5 4.552 5 4V2Z" fill="#10B981"/><path d="M2 6H10C10.552 6 11 6.448 11 7V10C11 10.552 10.552 11 10 11H2C1.448 11 1 10.552 1 10V7C1 6.448 1.448 6 2 6Z" fill="#10B981"/></svg>
+        <span style="color:var(--text)">kbzpay.com</span>/payment/r2o
+      </div>
+      <button class="webview-close" onclick="location.href='../home/home.html'">✕</button>
+    </div>
+
+    <!-- KBZPay header -->
+    <div class="kpay-header">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="6" width="24" height="17" rx="3" fill="rgba(255,255,255,0.2)"/><path d="M2 11H26" stroke="white" stroke-width="1.5"/><rect x="5" y="15" width="6" height="2.5" rx="1" fill="white" opacity="0.7"/></svg>
+        <div class="kpay-title">KBZPay</div>
+      </div>
+      <div class="kpay-logo">Myanmar's #1 Wallet</div>
+    </div>
+
+    <div class="kpay-body">
+      <!-- Amount card -->
+      <div class="kpay-amount-card">
+        <div class="kpay-amount-label">Payment Amount</div>
+        <div class="kpay-amount-val" id="kpayAmount">65,000 Ks</div>
+        <div class="kpay-merchant">Rent2Own Myanmar</div>
+        <div class="kpay-ref">Ref: C-647244-2-11-2601</div>
+      </div>
+
+      <!-- Info -->
+      <div class="kpay-info">
+        <div class="kpay-info-row"><span class="kpay-info-label">Merchant</span><span class="kpay-info-val">Rent2Own Co., Ltd</span></div>
+        <div class="kpay-info-row"><span class="kpay-info-label">Transaction Type</span><span class="kpay-info-val">Hire-Purchase Payment</span></div>
+        <div class="kpay-info-row"><span class="kpay-info-label">Transaction Fee</span><span class="kpay-info-val">0 Ks (Free)</span></div>
+        <div class="kpay-info-row"><span class="kpay-info-label">Date & Time</span><span class="kpay-info-val">14 Apr 2026, 09:41</span></div>
+      </div>
+
+      <!-- PIN entry -->
+      <div style="text-align:center;font-size:13px;font-weight:700;color:#1565C0;margin-bottom:8px">Enter your KBZPay PIN</div>
+      <div class="pin-display">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+        <div class="pin-dot" id="pd4"></div>
+        <div class="pin-dot" id="pd5"></div>
+      </div>
+
+      <div class="kpay-keypad">
+        <div class="kpay-key" onclick="tapPin('1')">1<span class="kpay-key-sub"> </span></div>
+        <div class="kpay-key" onclick="tapPin('2')">2<span class="kpay-key-sub">ABC</span></div>
+        <div class="kpay-key" onclick="tapPin('3')">3<span class="kpay-key-sub">DEF</span></div>
+        <div class="kpay-key" onclick="tapPin('4')">4<span class="kpay-key-sub">GHI</span></div>
+        <div class="kpay-key" onclick="tapPin('5')">5<span class="kpay-key-sub">JKL</span></div>
+        <div class="kpay-key" onclick="tapPin('6')">6<span class="kpay-key-sub">MNO</span></div>
+        <div class="kpay-key" onclick="tapPin('7')">7<span class="kpay-key-sub">PQRS</span></div>
+        <div class="kpay-key" onclick="tapPin('8')">8<span class="kpay-key-sub">TUV</span></div>
+        <div class="kpay-key" onclick="tapPin('9')">9<span class="kpay-key-sub">WXYZ</span></div>
+        <div class="kpay-key empty"></div>
+        <div class="kpay-key" onclick="tapPin('0')">0</div>
+        <div class="kpay-key empty" onclick="deletePin()">
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><path d="M8 1H20C20.552 1 21 1.448 21 2V14C21 14.552 20.552 15 20 15H8L1 8L8 1Z" stroke="#9CA3AF" stroke-width="1.4"/><path d="M17 5L13 11M13 5L17 11" stroke="#9CA3AF" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <button class="kpay-confirm" onclick="confirmPayment()">Confirm Payment</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let pinVal = [];
+
+// Load amount
+const amount = sessionStorage.getItem('payAmount');
+if (amount) document.getElementById('kpayAmount').textContent = parseInt(amount).toLocaleString() + ' Ks';
+
+function tapPin(d) {
+  if (pinVal.length >= 6) return;
+  pinVal.push(d);
+  renderPinDots();
+  if (pinVal.length === 6) setTimeout(confirmPayment, 400);
+}
+
+function deletePin() {
+  pinVal.pop();
+  renderPinDots();
+}
+
+function renderPinDots() {
+  for (let i = 0; i < 6; i++) {
+    document.getElementById('pd' + i).classList.toggle('filled', i < pinVal.length);
+  }
+}
+
+function confirmPayment() {
+  location.href = 'payment-success.html';
+}
+</script>
+</body>
+</html>

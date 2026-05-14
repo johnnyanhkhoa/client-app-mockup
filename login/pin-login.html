@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R2O — Enter PIN</title>
+<link rel="stylesheet" href="../shared.css" />
+<style>
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+}
+
+.topbar {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.back-btn:hover { background: var(--bg); }
+
+.content {
+  flex: 1;
+  padding: 8px 28px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heading-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.subheading {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* PIN boxes — 6 individual digit boxes like wireframe */
+.pin-boxes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pin-box {
+  flex: 1;
+  height: 52px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  transition: border-color 0.2s, background 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.pin-box.filled {
+  border-color: var(--teal);
+  background: var(--white);
+  color: var(--text);
+}
+
+.pin-box.active {
+  border-color: var(--teal);
+  background: var(--white);
+}
+
+.forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.forgot-link {
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.submit-btn {
+  margin-bottom: 16px;
+}
+
+/* Keypad */
+.keypad {
+  flex-shrink: 0;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+}
+
+.keypad-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.keypad-row:last-child {
+  border-bottom: none;
+}
+
+.key {
+  flex: 1;
+  padding: 18px 0;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition: background 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key:last-child { border-right: none; }
+.key:active { background: var(--bg); }
+
+.key-empty {
+  background: var(--bg);
+  cursor: default;
+}
+.key-empty:active { background: var(--bg); }
+
+.key-sub {
+  font-size: 10px;
+  color: var(--text3);
+  display: block;
+  font-weight: 400;
+}
+
+/* Biometric button — standalone above keypad */
+.biometric-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 20px;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 0;
+}
+.biometric-btn:active {
+  background: var(--teal-light);
+  border-color: var(--teal);
+  color: var(--teal-dark);
+}
+
+.key-delete {
+  background: var(--bg);
+}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41 AM</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A2E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A2E"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A2E"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" fill="#9CA3AF"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.5C10.2 2.5 12.2 3.4 13.6 4.9L15 3.5C13.2 1.6 10.7 0.5 8 0.5C5.3 0.5 2.8 1.6 1 3.5L2.4 4.9C3.8 3.4 5.8 2.5 8 2.5Z" fill="#1A1A2E"/><path d="M8 5.5C9.5 5.5 10.8 6.1 11.8 7.1L13.2 5.7C11.8 4.4 10 3.5 8 3.5C6 3.5 4.2 4.4 2.8 5.7L4.2 7.1C5.2 6.1 6.5 5.5 8 5.5Z" fill="#1A1A2E"/><circle cx="8" cy="10" r="1.5" fill="#1A1A2E"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 6C24.5 5.6 23.8 4.8 23 4.5Z" fill="#1A1A2E" fill-opacity="0.4"/></svg>
+    </span>
+  </div>
+
+  <div class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="location.href='login.html'">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="content">
+      <div class="heading">
+        Enter Your PIN
+        <!-- Small avatar/badge next to title like wireframe -->
+        <div class="heading-badge">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="14" fill="#E8F8F4"/>
+            <circle cx="14" cy="11" r="5" fill="#00B894"/>
+            <path d="M5 26C5 21.5 9 18 14 18C19 18 23 21.5 23 26" stroke="#00B894" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="subheading">Enter your 6-digit PIN to access your account</div>
+
+      <!-- 6 PIN boxes -->
+      <div class="pin-boxes" id="pinBoxes">
+        <div class="pin-box filled" id="b0">1</div>
+        <div class="pin-box filled" id="b1">0</div>
+        <div class="pin-box filled" id="b2">0</div>
+        <div class="pin-box active"  id="b3"> </div>
+        <div class="pin-box"         id="b4"> </div>
+        <div class="pin-box"         id="b5"> </div>
+      </div>
+
+      <!-- Forgot PIN — right-aligned like wireframe -->
+      <div class="forgot-row">
+        <a class="forgot-link" href="forgot-pin.html">Forgot PIN?</a>
+      </div>
+
+      <!-- Login + Biometric icon inline -->
+      <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:16px">
+        <button class="btn btn-primary"
+                style="flex:1;padding:15px 0;width:auto"
+                onclick="goToSuccess()">Login</button>
+
+        <!-- Biometric icon button — ~20% width -->
+        <button onclick="triggerBiometric()"
+                title="Use biometric login"
+                style="
+                  flex:0 0 52px;
+                  height:auto;
+                  background:var(--bg);
+                  border:1.5px solid var(--border);
+                  border-radius:14px;
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  cursor:pointer;
+                  transition:background 0.2s,border-color 0.2s;
+                  padding:0;
+                "
+                onmouseenter="this.style.background='var(--teal-light)';this.style.borderColor='var(--teal)'"
+                onmouseleave="this.style.background='var(--bg)';this.style.borderColor='var(--border)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C8.686 2 6 4.686 6 8C6 11.314 8.686 14 12 14C15.314 14 18 11.314 18 8" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 5C10.343 5 9 6.343 9 8C9 9.657 10.343 11 12 11C13.657 11 15 9.657 15 8" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="12" cy="8" r="1.2" fill="#6B7280"/>
+            <path d="M15.5 2.5C17.5 3.5 19 5.5 19.5 7.8" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M19 11C18.5 13 17.3 14.8 15.5 16" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M9 18C7.2 17 5.8 15.2 5.2 13" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Keypad -->
+    <div class="keypad">
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('1')">
+          1<span class="key-sub"> </span>
+        </div>
+        <div class="key" onclick="tapKey('2')">
+          2<span class="key-sub">ABC</span>
+        </div>
+        <div class="key" onclick="tapKey('3')">
+          3<span class="key-sub">DEF</span>
+        </div>
+      </div>
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('4')">4<span class="key-sub">GHI</span></div>
+        <div class="key" onclick="tapKey('5')">5<span class="key-sub">JKL</span></div>
+        <div class="key" onclick="tapKey('6')">6<span class="key-sub">MNO</span></div>
+      </div>
+      <div class="keypad-row">
+        <div class="key" onclick="tapKey('7')">7<span class="key-sub">PQRS</span></div>
+        <div class="key" onclick="tapKey('8')">8<span class="key-sub">TUV</span></div>
+        <div class="key" onclick="tapKey('9')">9<span class="key-sub">WXYZ</span></div>
+      </div>
+      <div class="keypad-row">
+        <!-- Empty bottom-left -->
+        <div class="key key-empty"></div>
+        <div class="key" onclick="tapKey('0')">0</div>
+        <!-- Delete key -->
+        <div class="key key-delete" onclick="deleteKey()">
+          <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+            <path d="M9 1H22C22.552 1 23 1.448 23 2V16C23 16.552 22.552 17 22 17H9L1 9L9 1Z" stroke="#6B7280" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M19 6L13 12M13 6L19 12" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let pin = ['1','0','0','','',''];
+let currentPos = 3;
+
+function renderBoxes() {
+  for (let i = 0; i < 6; i++) {
+    const box = document.getElementById('b' + i);
+    box.className = 'pin-box';
+    if (pin[i]) {
+      box.textContent = pin[i];
+      box.classList.add('filled');
+    } else if (i === currentPos) {
+      box.textContent = '';
+      box.classList.add('active');
+    } else {
+      box.textContent = '';
+    }
+  }
+}
+
+function tapKey(digit) {
+  if (currentPos >= 6) return;
+  pin[currentPos] = digit;
+  currentPos++;
+  renderBoxes();
+  if (currentPos === 6) {
+    setTimeout(goToSuccess, 400);
+  }
+}
+
+function deleteKey() {
+  if (currentPos <= 0) return;
+  currentPos--;
+  pin[currentPos] = '';
+  renderBoxes();
+}
+
+function triggerBiometric() {
+  // Simulate biometric — show brief animation then go to success
+  document.querySelectorAll('.pin-box').forEach(b => {
+    b.style.borderColor = 'var(--teal)';
+    b.style.background = 'var(--teal-light)';
+  });
+  setTimeout(() => {
+    goToSuccess();
+  }, 800);
+}
+
+function goToSuccess() {
+  location.href = 'login-success.html';
+}
+</script>
+</body>
+</html>
