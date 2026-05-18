@@ -455,6 +455,30 @@
 
     <!-- Scrollable cards -->
     <div class="body">
+      <!-- Terminated contract banner -->
+        <div style="
+          background:#FEF3C7;
+          border-left:4px solid #F59E0B;
+          margin:12px 14px 0;
+          border-radius:12px;
+          padding:12px 14px;
+          display:flex;
+          align-items:flex-start;
+          gap:10px;
+        ">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px">
+            <circle cx="10" cy="10" r="9" stroke="#F59E0B" stroke-width="1.5"/>
+            <path d="M10 6V10M10 13V13.5" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:2px">Contract Ended</div>
+            <div style="font-size:12px;color:#92400E;line-height:1.6">Your hire-purchase contract has been terminated. You can still view your payment history or contact us if you have questions.</div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button onclick="location.href='../loan/loan-detail.html'" style="background:white;border:1.5px solid #F59E0B;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:#92400E;cursor:pointer">View History</button>
+              <button onclick="location.href='../alerts/chat.html'" style="background:#F59E0B;border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:white;cursor:pointer">Contact CS</button>
+            </div>
+          </div>
+        </div>
       <div class="cards">
 
         <!-- Loyalty Reminder Card -->
@@ -586,117 +610,6 @@
     </div>
 
   </div>
-
-  <!-- Product Receipt Confirmation popup — shown on first login after contract signed -->
-  <div id="receiptModal" style="
-    position:absolute;inset:0;
-    background:rgba(0,0,0,0.5);
-    z-index:200;
-    display:flex;align-items:flex-end;
-    border-radius:44px;
-    overflow:hidden;
-  ">
-    <div style="
-      background:white;
-      border-radius:20px 20px 0 0;
-      padding:24px 20px 32px;
-      width:100%;
-    " onclick="event.stopPropagation()">
-      <div style="width:36px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 20px"></div>
-
-      <!-- Step indicator -->
-      <div style="display:flex;gap:8px;margin-bottom:16px">
-        <div id="step-dot-1" style="flex:1;height:4px;border-radius:2px;background:#00B894"></div>
-        <div id="step-dot-2" style="flex:1;height:4px;border-radius:2px;background:#E5E7EB"></div>
-      </div>
-
-      <!-- Step 1: Confirm Receipt -->
-      <div id="step1">
-        <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:#1A1A2E;margin-bottom:6px">Confirm Product Receipt</div>
-        <div style="font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:20px">Before your contract becomes active, please confirm you have received your product.</div>
-
-        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-bottom:24px">
-          <input type="checkbox" id="receiptCheck" onchange="updateConfirmBtn()"
-                style="width:20px;height:20px;accent-color:#00B894;flex-shrink:0;margin-top:2px"/>
-          <span style="font-size:13px;color:#1A1A2E;line-height:1.6">
-            I confirm I have received the product in its best condition and intact.
-          </span>
-        </label>
-
-        <button id="confirmBtn"
-                onclick="goToStep2()"
-                disabled
-                style="width:100%;padding:15px;background:#E5E7EB;color:#9CA3AF;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:default;font-family:'Nunito Sans',sans-serif;transition:all .2s">
-          Confirm Receipt
-        </button>
-      </div>
-
-      <!-- Step 2: Service Rating (optional) -->
-      <div id="step2" style="display:none">
-        <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:#1A1A2E;margin-bottom:6px">Rate Your Experience</div>
-        <div style="font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:4px">How was your experience with our service? (Optional)</div>
-        <div style="font-size:11px;color:#00B894;font-weight:600;margin-bottom:20px">You can skip this step</div>
-
-        <!-- Stars -->
-        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px" id="starRow">
-          <span class="star" onclick="rateStar(1)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
-          <span class="star" onclick="rateStar(2)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
-          <span class="star" onclick="rateStar(3)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
-          <span class="star" onclick="rateStar(4)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
-          <span class="star" onclick="rateStar(5)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
-        </div>
-
-        <textarea placeholder="Share your feedback (optional)..."
-                  style="width:100%;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:16px"></textarea>
-
-        <div style="display:flex;gap:10px">
-          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;font-family:'Nunito Sans',sans-serif">
-            Skip
-          </button>
-          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#00B894;border:none;border-radius:12px;font-size:13px;font-weight:700;color:white;cursor:pointer;font-family:'Nunito Sans',sans-serif">
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-  function updateConfirmBtn() {
-    const checked = document.getElementById('receiptCheck').checked;
-    const btn = document.getElementById('confirmBtn');
-    btn.disabled = !checked;
-    btn.style.background = checked ? '#00B894' : '#E5E7EB';
-    btn.style.color = checked ? 'white' : '#9CA3AF';
-    btn.style.cursor = checked ? 'pointer' : 'default';
-  }
-
-  function goToStep2() {
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-    document.getElementById('step-dot-1').style.background = '#00B894';
-    document.getElementById('step-dot-2').style.background = '#00B894';
-  }
-
-  let selectedStar = 0;
-  function rateStar(n) {
-    selectedStar = n;
-    document.querySelectorAll('.star').forEach((s, i) => {
-      s.style.opacity = i < n ? '1' : '0.3';
-      s.style.color = i < n ? '#F59E0B' : 'inherit';
-    });
-  }
-
-  function closeReceipt() {
-    document.getElementById('receiptModal').style.display = 'none';
-  }
-
-  // Show on load (simulate first login after contract signed)
-  // In production, this would only show if contract status = pending_receipt
-  window.addEventListener('load', () => {
-    document.getElementById('receiptModal').style.display = 'flex';
-  });
-  </script>
 </div>
 <script src="../navigator.js"></script>
 </body>
