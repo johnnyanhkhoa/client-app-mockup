@@ -692,6 +692,8 @@
 
   // Show on load (simulate first login after contract signed)
   // In production, this would only show if contract status = pending_receipt
+  // Mockup: always show on load to demonstrate Flow 3
+  // Production: only show when contract status = 'pending_receipt'
   window.addEventListener('load', () => {
     document.getElementById('receiptModal').style.display = 'flex';
   });

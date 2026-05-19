@@ -30,6 +30,7 @@
 
     { section: 'Home' },
     { label: 'Home Dashboard', path: '/home/home.html',                 dot: '#00B894' },
+    { label: 'Home — Terminated', path: '/home/home-terminated.html',   dot: '#00B894', sub: true },
 
     { section: 'Loan' },
     { label: 'Loan Detail',    path: '/loan/loan-detail.html',          dot: '#FD79A8' },

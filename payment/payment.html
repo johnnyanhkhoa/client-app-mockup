@@ -98,6 +98,15 @@
         <div class="breakdown-row"><span class="breakdown-label">Discount</span><span class="breakdown-discount">0 MMK</span></div>
       </div>
 
+      <!-- Partial payment warning -->
+      <div id="partialWarning" style="display:none;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:12px 14px;margin-bottom:16px;gap:10px;align-items:flex-start">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="9" cy="9" r="8" stroke="#F59E0B" stroke-width="1.4"/><path d="M9 5V9" stroke="#F59E0B" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="12" r="0.8" fill="#F59E0B"/></svg>
+        <div style="font-size:12px;color:#92400E;line-height:1.7;flex:1">
+          You are about to make a partial payment. Are you sure you cannot pay the full <strong>65,000 MMK</strong> to complete this installment on time?<br>
+          <span style="color:#B45309">Partial payments will not count as on-time and may affect your Loyalty Loan eligibility.</span>
+        </div>
+      </div>
+
       <!-- Integrated methods -->
       <div class="section-label">Integrated Payment Methods</div>
       <div class="integrated-row">
@@ -192,7 +201,17 @@ function selectMethod(id) {
   updatePayBtn();
 }
 
-function onAmountChange() { updatePayBtn(); }
+function onAmountChange() {
+  updatePayBtn();
+  const amount = parseFloat(document.getElementById('amountInput').value);
+  const fullAmount = 65000;
+  const warning = document.getElementById('partialWarning');
+  if (amount > 0 && amount < fullAmount) {
+    warning.style.display = 'flex';
+  } else {
+    warning.style.display = 'none';
+  }
+}
 
 function updatePayBtn() {
   const btn = document.getElementById('payBtn');
