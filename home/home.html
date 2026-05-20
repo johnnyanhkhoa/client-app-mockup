@@ -7,412 +7,124 @@
 <link rel="stylesheet" href="../shared.css" />
 <style>
 * { box-sizing: border-box; }
+.screen{flex:1;display:flex;flex-direction:column;background:#F0F2F5;overflow:hidden}
+.body{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:12px}
+.body::-webkit-scrollbar{display:none}
+.header{background:var(--white);padding:14px 18px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#00B894,#007A63);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:white;flex-shrink:0;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.header-text{flex:1;min-width:0}
+.hello{font-size:12px;color:var(--text2);margin-bottom:1px}
+.username{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.lang-btn{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;white-space:nowrap}
+.bell-wrap{position:relative;cursor:pointer}
+.bell-dot{width:9px;height:9px;background:#EF4444;border-radius:50%;border:2px solid white;position:absolute;top:-1px;right:-1px}
+.cards{padding:14px 14px 0}
+.loyalty-card{background:linear-gradient(135deg,#0D3349 0%,#0A5468 60%,#0B6E72 100%);border-radius:16px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;position:relative;overflow:hidden}
+.loyalty-card::before{content:'';position:absolute;right:60px;top:-20px;width:80px;height:80px;border-radius:50%;border:12px solid rgba(255,255,255,0.05)}
+.loyalty-card::after{content:'';position:absolute;right:30px;bottom:-30px;width:100px;height:100px;border-radius:50%;border:14px solid rgba(255,255,255,0.04)}
+.loyalty-text{flex:1;z-index:1}
+.loyalty-label{font-size:13px;font-weight:800;color:#FFD166;margin-bottom:6px;font-family:'Nunito',sans-serif}
+.loyalty-line1{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5;margin-bottom:2px}
+.loyalty-line1 span{color:#FFD166;font-weight:700}
+.loyalty-line2{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.5}
+.loyalty-line2 span{color:rgba(255,255,255,0.85);font-weight:600}
+.circle-wrap{width:64px;height:64px;flex-shrink:0;z-index:1;position:relative}
+.circle-wrap svg{transform:rotate(-90deg);width:64px;height:64px}
+.circle-bg{fill:none;stroke:rgba(255,255,255,0.15);stroke-width:6}
+.circle-fill{fill:none;stroke:white;stroke-width:6;stroke-linecap:round;stroke-dasharray:163;stroke-dashoffset:67;transition:stroke-dashoffset 1s ease}
+.circle-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:11px;font-weight:800;color:white;line-height:1.2;text-align:center}
+.card{background:var(--white);border-radius:16px;padding:16px 16px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card-top-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.installment-label{font-size:14px;font-weight:700;color:var(--text);font-family:'Nunito',sans-serif}
+.badge-on-time{background:#D1FAE5;color:#065F46;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
+.due-row{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.due-text{font-size:12px;color:var(--text2)}
+.due-date{font-weight:700;color:var(--text)}
+.amount{font-family:'Nunito',sans-serif;font-size:34px;font-weight:900;color:var(--text);margin-bottom:12px;letter-spacing:-0.5px}
+.amount span{font-size:16px;font-weight:600;color:var(--text2);margin-left:4px}
+.progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px}
+.progress-meta .discount{color:var(--teal);font-weight:700}
+.progress-bar{width:100%;height:7px;background:#E5E7EB;border-radius:4px;overflow:hidden;margin-bottom:5px}
+.progress-fill{height:100%;background:var(--teal);border-radius:4px;width:69%}
+.progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:10px}
+.upcoming{margin-bottom:14px}
+.upcoming-item{font-size:12px;color:var(--text2);padding:3px 0}
+.upcoming-item span{color:var(--text);font-weight:600}
+.card-btns{display:flex;gap:10px;margin-bottom:12px}
+.btn-see{flex:1;padding:13px;border:1.5px solid var(--teal);border-radius:12px;background:transparent;color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:background 0.2s}
+.btn-see:active{background:var(--teal-light)}
+.btn-pay{flex:1;padding:13px;border:none;border-radius:12px;background:var(--teal);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:opacity 0.2s}
+.btn-pay:active{opacity:0.85}
+.loyalty-tip{background:#FFFBEB;border-radius:10px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px}
+.loyalty-tip-dot{width:8px;height:8px;border-radius:50%;background:#F59E0B;flex-shrink:0;margin-top:3px}
+.loyalty-tip-text{font-size:12px;color:#92400E;line-height:1.5}
+.otp-label{font-size:13px;color:var(--text2);margin-bottom:6px;font-weight:500}
+.otp-amount{font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:var(--text);margin-bottom:14px;letter-spacing:-0.5px}
+.otp-amount span{font-size:14px;font-weight:600;color:var(--text2);margin-left:3px}
+.bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding:8px 0 16px;flex-shrink:0}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;transition:color 0.2s;padding:2px 0}
+.ni.active{color:var(--teal)}
+.ni svg{width:22px;height:22px}
 
-.screen {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #F0F2F5;
-  overflow: hidden;
+/* ── Tutorial overlay ── */
+#tutorialOverlay{
+  position:absolute;inset:0;z-index:300;pointer-events:none;
 }
+.tut-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0);
+  transition:background 0.3s;
+  pointer-events:all;
+}
+.tut-backdrop.active{background:rgba(0,0,0,0.65)}
 
-/* ── Scrollable body ── */
-.body {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  padding-bottom: 12px;
-}
-.body::-webkit-scrollbar { display: none; }
-
-/* ── Header ── */
-.header {
-  background: var(--white);
-  padding: 14px 18px 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: linear-gradient(135deg, #00B894, #007A63);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  font-weight: 800;
-  color: white;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
-
-.header-text { flex: 1; min-width: 0; }
-.hello { font-size: 12px; color: var(--text2); margin-bottom: 1px; }
-.username {
-  font-family: 'Nunito', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.lang-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text2);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.bell-wrap {
-  position: relative;
-  cursor: pointer;
-}
-.bell-dot {
-  width: 9px;
-  height: 9px;
-  background: #EF4444;
-  border-radius: 50%;
-  border: 2px solid white;
-  position: absolute;
-  top: -1px;
-  right: -1px;
+/* Highlight cutout — uses box-shadow trick */
+.tut-highlight{
+  position:absolute;
+  border-radius:12px;
+  box-shadow:0 0 0 9999px rgba(0,0,0,0.65);
+  border:2px solid #00B894;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  pointer-events:none;
+  z-index:1;
 }
 
-/* ── Cards padding ── */
-.cards { padding: 14px 14px 0; }
+/* Tooltip bubble */
+.tut-tooltip{
+  position:absolute;
+  background:white;
+  border-radius:14px;
+  padding:14px 16px;
+  width:240px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  z-index:2;
+  pointer-events:all;
+  transition:all 0.3s ease;
+}
+.tut-tooltip-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#1A1A2E;margin-bottom:4px}
+.tut-tooltip-body{font-size:12px;color:#6B7280;line-height:1.6;margin-bottom:12px}
+.tut-tooltip-footer{display:flex;align-items:center;justify-content:space-between}
+.tut-step-count{font-size:11px;color:#9CA3AF;font-weight:600}
+.tut-btn-row{display:flex;gap:8px}
+.tut-skip{font-size:12px;color:#9CA3AF;background:none;border:none;cursor:pointer;font-family:'Nunito Sans',sans-serif;padding:0}
+.tut-next{font-size:12px;font-weight:700;color:white;background:#00B894;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;font-family:'Nunito Sans',sans-serif}
 
-/* ── Loyalty Card (dark teal gradient) ── */
-.loyalty-card {
-  background: linear-gradient(135deg, #0D3349 0%, #0A5468 60%, #0B6E72 100%);
-  border-radius: 16px;
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+/* Arrow pointer on tooltip */
+.tut-tooltip::before{
+  content:'';position:absolute;width:0;height:0;
 }
-/* Decorative circles */
-.loyalty-card::before {
-  content: '';
-  position: absolute;
-  right: 60px;
-  top: -20px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 12px solid rgba(255,255,255,0.05);
+.tut-tooltip.arrow-top::before{
+  border-left:8px solid transparent;border-right:8px solid transparent;
+  border-bottom:10px solid white;
+  top:-10px;left:24px;
 }
-.loyalty-card::after {
-  content: '';
-  position: absolute;
-  right: 30px;
-  bottom: -30px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 14px solid rgba(255,255,255,0.04);
+.tut-tooltip.arrow-bottom::before{
+  border-left:8px solid transparent;border-right:8px solid transparent;
+  border-top:10px solid white;
+  bottom:-10px;left:24px;
 }
-
-.loyalty-text { flex: 1; z-index: 1; }
-.loyalty-label {
-  font-size: 13px;
-  font-weight: 800;
-  color: #FFD166;
-  margin-bottom: 6px;
-  font-family: 'Nunito', sans-serif;
-}
-.loyalty-line1 {
-  font-size: 13px;
-  color: rgba(255,255,255,0.9);
-  line-height: 1.5;
-  margin-bottom: 2px;
-}
-.loyalty-line1 span { color: #FFD166; font-weight: 700; }
-.loyalty-line2 {
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.5;
-}
-.loyalty-line2 span { color: rgba(255,255,255,0.85); font-weight: 600; }
-
-/* Circular progress */
-.circle-wrap {
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-  z-index: 1;
-  position: relative;
-}
-.circle-wrap svg {
-  transform: rotate(-90deg);
-  width: 64px;
-  height: 64px;
-}
-.circle-bg { fill: none; stroke: rgba(255,255,255,0.15); stroke-width: 6; }
-.circle-fill {
-  fill: none;
-  stroke: white;
-  stroke-width: 6;
-  stroke-linecap: round;
-  stroke-dasharray: 163;
-  stroke-dashoffset: 67; /* 163*(1-0.59) ≈ 67 — 7/12 months */
-  transition: stroke-dashoffset 1s ease;
-}
-.circle-label {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  font-size: 11px;
-  font-weight: 800;
-  color: white;
-  line-height: 1.2;
-  text-align: center;
-}
-
-/* ── Next Payment Card ── */
-.card {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 16px 16px 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-
-.card-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 4px;
-}
-
-.installment-label {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  font-family: 'Nunito', sans-serif;
-}
-
-.badge-on-time {
-  background: #D1FAE5;
-  color: #065F46;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.due-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.due-text {
-  font-size: 12px;
-  color: var(--text2);
-}
-.due-date { font-weight: 700; color: var(--text); }
-.help-icon {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.amount {
-  font-family: 'Nunito', sans-serif;
-  font-size: 34px;
-  font-weight: 900;
-  color: var(--text);
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
-}
-.amount span {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-left: 4px;
-}
-
-/* Progress section */
-.progress-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text2);
-  margin-bottom: 5px;
-}
-.progress-meta .discount { color: var(--teal); font-weight: 700; }
-.progress-bar {
-  width: 100%;
-  height: 7px;
-  background: #E5E7EB;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 5px;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--teal);
-  border-radius: 4px;
-  width: 69%;
-}
-.progress-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text3);
-  margin-bottom: 10px;
-}
-
-/* Upcoming dates */
-.upcoming {
-  margin-bottom: 14px;
-}
-.upcoming-item {
-  font-size: 12px;
-  color: var(--text2);
-  padding: 3px 0;
-}
-.upcoming-item span { color: var(--text); font-weight: 600; }
-
-/* Card buttons */
-.card-btns {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.btn-see {
-  flex: 1;
-  padding: 13px;
-  border: 1.5px solid var(--teal);
-  border-radius: 12px;
-  background: transparent;
-  color: var(--teal);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Nunito Sans', sans-serif;
-  transition: background 0.2s;
-}
-.btn-see:active { background: var(--teal-light); }
-.btn-pay {
-  flex: 1;
-  padding: 13px;
-  border: none;
-  border-radius: 12px;
-  background: var(--teal);
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Nunito Sans', sans-serif;
-  transition: opacity 0.2s;
-}
-.btn-pay:active { opacity: 0.85; }
-
-/* Loyalty tip */
-.loyalty-tip {
-  background: #FFFBEB;
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-.loyalty-tip-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #F59E0B;
-  flex-shrink: 0;
-  margin-top: 3px;
-}
-.loyalty-tip-text {
-  font-size: 12px;
-  color: #92400E;
-  line-height: 1.5;
-}
-
-/* ── OTP / Full Settlement Card ── */
-.otp-label {
-  font-size: 13px;
-  color: var(--text2);
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-.otp-amount {
-  font-family: 'Nunito', sans-serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--text);
-  margin-bottom: 14px;
-  letter-spacing: -0.5px;
-}
-.otp-amount span {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-left: 3px;
-}
-
-/* ── Bottom Navigation ── */
-.bnav {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  display: flex;
-  padding: 8px 0 16px;
-  flex-shrink: 0;
-}
-.ni {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  color: var(--text3);
-  font-size: 10px;
-  font-weight: 600;
-  transition: color 0.2s;
-  padding: 2px 0;
-}
-.ni.active { color: var(--teal); }
-.ni svg { width: 22px; height: 22px; }
 </style>
 </head>
 <body>
@@ -427,9 +139,7 @@
   </div>
 
   <div class="screen">
-
-    <!-- Header -->
-    <div class="header">
+    <div class="header" id="el-header">
       <div class="avatar">
         <img src="../onboarding/assets/avatar.jpg" alt=""
              onerror="this.style.display='none';this.parentElement.textContent='KS'" />
@@ -439,8 +149,7 @@
         <div class="username">Kyaw Swar Hein</div>
       </div>
       <div class="header-right">
-        <div class="lang-btn">
-          🇲🇲 MM
+        <div class="lang-btn">🇲🇲 MM
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="bell-wrap" onclick="location.href='../alerts/alerts.html'">
@@ -453,22 +162,14 @@
       </div>
     </div>
 
-    <!-- Scrollable cards -->
     <div class="body">
       <div class="cards">
-
-        <!-- Loyalty Reminder Card -->
-        <div class="loyalty-card" onclick="location.href='../loyalty/loyalty.html'">
+        <div class="loyalty-card" id="el-loyalty" onclick="location.href='../loyalty/loyalty.html'">
           <div class="loyalty-text">
             <div class="loyalty-label">Loyalty Reminder</div>
-            <div class="loyalty-line1">
-              <span>(3)</span> months paid on time consecutively.
-            </div>
-            <div class="loyalty-line2">
-              <span>(5) months</span> remaining to eligibility.
-            </div>
+            <div class="loyalty-line1"><span>(3)</span> months paid on time consecutively.</div>
+            <div class="loyalty-line2"><span>(5) months</span> remaining to eligibility.</div>
           </div>
-          <!-- Circular progress: 7/12 months ≈ 58% -->
           <div class="circle-wrap">
             <svg viewBox="0 0 64 64">
               <circle class="circle-bg" cx="32" cy="32" r="26"/>
@@ -478,227 +179,273 @@
           </div>
         </div>
 
-        <!-- Next Payment Card -->
-        <div class="card">
+        <div class="card" id="el-payment">
           <div class="card-top-row">
-            <div class="installment-label">(4) Installment Payment</div>
+            <div class="installment-label">(4) Monthly Payment</div>
             <span class="badge-on-time">On time</span>
           </div>
-
           <div class="due-row">
             <span class="due-text">Next payment due: <span class="due-date">14 April 2026</span></span>
-            <div class="help-icon">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <circle cx="5" cy="5" r="4.5" stroke="#9CA3AF"/>
-                <path d="M5 4C5 3.448 4.552 3 4 3" stroke="#9CA3AF" stroke-linecap="round"/>
-                <circle cx="5" cy="7" r="0.5" fill="#9CA3AF"/>
-                <path d="M5 5.5V6.5" stroke="#9CA3AF" stroke-linecap="round"/>
-              </svg>
-            </div>
           </div>
-
           <div class="amount">65,000 <span>MMK</span></div>
-
           <div class="progress-meta">
             <span>2/1.5</span>
             <span class="discount">Payment discount – 69%</span>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-          <div class="progress-labels">
-            <span>Cash</span>
-            <span>Pay on time!</span>
-          </div>
-
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <div class="progress-labels"><span>Cash</span><span>Pay on time!</span></div>
           <div class="upcoming">
-            <div class="upcoming-item">
-              (5) Next payment due –<span> 14 May 2026</span>
-            </div>
-            <div class="upcoming-item">
-              (6) Next payment due –<span> 14 Jun 2026</span>
-            </div>
+            <div class="upcoming-item">(5) Next payment due –<span> 14 May 2026</span></div>
+            <div class="upcoming-item">(6) Next payment due –<span> 14 Jun 2026</span></div>
           </div>
-
-          <div class="card-btns">
+          <div class="card-btns" id="el-btns">
             <button class="btn-see" onclick="location.href='../loan/loan-detail.html'">See History</button>
             <button class="btn-pay" onclick="location.href='../payment/payment.html'">Pay Now</button>
           </div>
-
           <div class="loyalty-tip">
             <div class="loyalty-tip-dot"></div>
             <div class="loyalty-tip-text">Pay on time to become eligible for Loyalty Loan</div>
           </div>
         </div>
 
-        <!-- OTP / Full Settlement Card -->
         <div class="card">
-          <div class="otp-label">Full Settlement (Option to Purchase)</div>
+          <div class="otp-label">Early Ownership Option</div>
           <div class="otp-amount">25,000,000 <span>MMK</span></div>
-          <button class="btn-pay" style="width:100%;padding:14px;font-size:15px;"
-                  onclick="location.href='../payment/payment.html'">
-            Pay in Full
-          </button>
+          <button class="btn-pay" style="width:100%;padding:14px;font-size:15px;" onclick="location.href='../payment/payment.html'">Pay in Full</button>
         </div>
-
-      </div><!-- /cards -->
-    </div><!-- /body -->
-
-    <!-- Bottom Navigation -->
-    <div class="bnav">
-      <div class="ni active">
-        <svg viewBox="0 0 22 22" fill="none">
-          <path d="M3 9.5L11 3L19 9.5V19C19 19.552 18.552 20 18 20H14V15H8V20H4C3.448 20 3 19.552 3 19V9.5Z"
-                fill="#00B894" stroke="#00B894" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
-        <span>Home</span>
-      </div>
-      <div class="ni" onclick="location.href='../loyalty/loyalty.html'">
-        <svg viewBox="0 0 22 22" fill="none">
-          <path d="M11 2L13.5 8H20L14.5 12L16.5 18.5L11 15L5.5 18.5L7.5 12L2 8H8.5L11 2Z"
-                stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
-        <span>Loyalty</span>
-      </div>
-      <div class="ni" onclick="location.href='../payment/payment.html'">
-        <svg viewBox="0 0 22 22" fill="none">
-          <rect x="2" y="5" width="18" height="14" rx="2" stroke="#9CA3AF" stroke-width="1.5"/>
-          <path d="M2 9H20" stroke="#9CA3AF" stroke-width="1.5"/>
-          <path d="M6 14H9" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <span>Payment</span>
-      </div>
-      <div class="ni" onclick="location.href='../loan/loan-detail.html'">
-        <svg viewBox="0 0 22 22" fill="none">
-          <rect x="4" y="2" width="14" height="18" rx="2" stroke="#9CA3AF" stroke-width="1.5"/>
-          <path d="M8 7H14M8 11H14M8 15H11" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <span>Contract</span>
-      </div>
-      <div class="ni" onclick="location.href='../profile/profile.html'">
-        <svg viewBox="0 0 22 22" fill="none">
-          <circle cx="11" cy="8" r="4" stroke="#9CA3AF" stroke-width="1.5"/>
-          <path d="M3 19C3 15.686 6.686 13 11 13C15.314 13 19 15.686 19 19"
-                stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <span>Profile</span>
       </div>
     </div>
 
+    <div class="bnav" id="el-bnav">
+      <div class="ni active">
+        <svg viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3L19 9.5V19C19 19.552 18.552 20 18 20H14V15H8V20H4C3.448 20 3 19.552 3 19V9.5Z" fill="#00B894" stroke="#00B894" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </div>
+      <div class="ni" onclick="location.href='../loyalty/loyalty.html'">
+        <svg viewBox="0 0 22 22" fill="none"><path d="M11 2L13.5 8H20L14.5 12L16.5 18.5L11 15L5.5 18.5L7.5 12L2 8H8.5L11 2Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Loyalty</span>
+      </div>
+      <div class="ni" onclick="location.href='../payment/payment.html'">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="14" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M2 9H20" stroke="#9CA3AF" stroke-width="1.5"/></svg>
+        <span>Payment</span>
+      </div>
+      <div class="ni" onclick="goToContract()">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="4" y="2" width="14" height="18" rx="2" stroke="#9CA3AF" stroke-width="1.5"/><path d="M8 7H14M8 11H14M8 15H11" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Contract</span>
+      </div>
+      <div class="ni" onclick="location.href='../profile/profile.html'">
+        <svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 19C3 15.686 6.686 13 11 13C15.314 13 19 15.686 19 19" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Product Receipt Confirmation popup — shown on first login after contract signed -->
-  <div id="receiptModal" style="
-    position:absolute;inset:0;
-    background:rgba(0,0,0,0.5);
-    z-index:200;
-    display:flex;align-items:flex-end;
-    overflow:hidden;
-  ">
-    <div style="
-      background:white;
-      border-radius:20px 20px 0 0;
-      padding:24px 20px 32px;
-      width:100%;
-    " onclick="event.stopPropagation()">
+  <!-- ── Receipt Confirmation Modal ── -->
+  <div id="receiptModal" style="position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;overflow:hidden;">
+    <div style="background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;" onclick="event.stopPropagation()">
       <div style="width:36px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 20px"></div>
-
-      <!-- Step indicator -->
       <div style="display:flex;gap:8px;margin-bottom:16px">
         <div id="step-dot-1" style="flex:1;height:4px;border-radius:2px;background:#00B894"></div>
         <div id="step-dot-2" style="flex:1;height:4px;border-radius:2px;background:#E5E7EB"></div>
       </div>
-
-      <!-- Step 1: Confirm Receipt -->
       <div id="step1">
         <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:#1A1A2E;margin-bottom:6px">Confirm Product Receipt</div>
         <div style="font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:20px">Before your contract becomes active, please confirm you have received your product.</div>
-
         <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-bottom:24px">
-          <input type="checkbox" id="receiptCheck" onchange="updateConfirmBtn()"
-                style="width:20px;height:20px;accent-color:#00B894;flex-shrink:0;margin-top:2px"/>
-          <span style="font-size:13px;color:#1A1A2E;line-height:1.6">
-            I confirm I have received the product in its best condition and intact.
-          </span>
+          <input type="checkbox" id="receiptCheck" onchange="updateConfirmBtn()" style="width:20px;height:20px;accent-color:#00B894;flex-shrink:0;margin-top:2px"/>
+          <span style="font-size:13px;color:#1A1A2E;line-height:1.6">I confirm I have received the product in its best condition and intact.</span>
         </label>
-
-        <button id="confirmBtn"
-                onclick="goToStep2()"
-                disabled
-                style="width:100%;padding:15px;background:#E5E7EB;color:#9CA3AF;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:default;font-family:'Nunito Sans',sans-serif;transition:all .2s">
-          Confirm Receipt
-        </button>
+        <button id="confirmBtn" onclick="goToStep2()" disabled style="width:100%;padding:15px;background:#E5E7EB;color:#9CA3AF;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:default;font-family:'Nunito Sans',sans-serif;transition:all .2s">Confirm Receipt</button>
       </div>
-
-      <!-- Step 2: Service Rating (optional) -->
       <div id="step2" style="display:none">
         <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:#1A1A2E;margin-bottom:6px">Rate Your Experience</div>
         <div style="font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:4px">How was your experience with our service? (Optional)</div>
         <div style="font-size:11px;color:#00B894;font-weight:600;margin-bottom:20px">You can skip this step</div>
-
-        <!-- Stars -->
-        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px" id="starRow">
+        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px">
           <span class="star" onclick="rateStar(1)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
           <span class="star" onclick="rateStar(2)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
           <span class="star" onclick="rateStar(3)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
           <span class="star" onclick="rateStar(4)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
           <span class="star" onclick="rateStar(5)" style="font-size:36px;cursor:pointer;opacity:0.3">★</span>
         </div>
-
-        <textarea placeholder="Share your feedback (optional)..."
-                  style="width:100%;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:16px"></textarea>
-
+        <textarea placeholder="Share your feedback (optional)..." style="width:100%;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:16px"></textarea>
         <div style="display:flex;gap:10px">
-          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;font-family:'Nunito Sans',sans-serif">
-            Skip
-          </button>
-          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#00B894;border:none;border-radius:12px;font-size:13px;font-weight:700;color:white;cursor:pointer;font-family:'Nunito Sans',sans-serif">
-            Submit
-          </button>
+          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#F7F8FA;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;font-family:'Nunito Sans',sans-serif">Skip</button>
+          <button onclick="closeReceipt()" style="flex:1;padding:13px;background:#00B894;border:none;border-radius:12px;font-size:13px;font-weight:700;color:white;cursor:pointer;font-family:'Nunito Sans',sans-serif">Submit</button>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-  function updateConfirmBtn() {
-    const checked = document.getElementById('receiptCheck').checked;
-    const btn = document.getElementById('confirmBtn');
-    btn.disabled = !checked;
-    btn.style.background = checked ? '#00B894' : '#E5E7EB';
-    btn.style.color = checked ? 'white' : '#9CA3AF';
-    btn.style.cursor = checked ? 'pointer' : 'default';
-  }
+  <!-- ── Tutorial Overlay ── -->
+  <div id="tutorialOverlay" style="display:none">
+    <div class="tut-backdrop active" id="tutBackdrop"></div>
+    <div class="tut-highlight" id="tutHighlight"></div>
+    <div class="tut-tooltip" id="tutTooltip">
+      <div class="tut-tooltip-title" id="tutTitle"></div>
+      <div class="tut-tooltip-body" id="tutBody"></div>
+      <div class="tut-tooltip-footer">
+        <span class="tut-step-count" id="tutCount"></span>
+        <div class="tut-btn-row">
+          <button class="tut-skip" onclick="endTutorial()">Skip</button>
+          <button class="tut-next" id="tutNextBtn" onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  function goToStep2() {
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-    document.getElementById('step-dot-1').style.background = '#00B894';
-    document.getElementById('step-dot-2').style.background = '#00B894';
-  }
+</div><!-- /.phone -->
 
-  let selectedStar = 0;
-  function rateStar(n) {
-    selectedStar = n;
-    document.querySelectorAll('.star').forEach((s, i) => {
-      s.style.opacity = i < n ? '1' : '0.3';
-      s.style.color = i < n ? '#F59E0B' : 'inherit';
-    });
-  }
-
-  function closeReceipt() {
-    document.getElementById('receiptModal').style.display = 'none';
-  }
-
-  // Show on load (simulate first login after contract signed)
-  // In production, this would only show if contract status = pending_receipt
-  // Mockup: always show on load to demonstrate Flow 3
-  // Production: only show when contract status = 'pending_receipt'
-  window.addEventListener('load', () => {
-    document.getElementById('receiptModal').style.display = 'flex';
+<script>
+// ── Receipt modal ──────────────────────────────────────
+function updateConfirmBtn() {
+  const checked = document.getElementById('receiptCheck').checked;
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = !checked;
+  btn.style.background = checked ? '#00B894' : '#E5E7EB';
+  btn.style.color = checked ? 'white' : '#9CA3AF';
+  btn.style.cursor = checked ? 'pointer' : 'default';
+}
+function goToStep2() {
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+  document.getElementById('step-dot-1').style.background = '#00B894';
+  document.getElementById('step-dot-2').style.background = '#00B894';
+}
+function rateStar(n) {
+  document.querySelectorAll('.star').forEach((s,i) => {
+    s.style.opacity = i < n ? '1' : '0.3';
+    s.style.color   = i < n ? '#F59E0B' : 'inherit';
   });
-  </script>
-</div>
+}
+function closeReceipt() {
+  document.getElementById('receiptModal').style.display = 'none';
+  // After receipt, check if tutorial should start
+  if (!sessionStorage.getItem('tutorialDone')) {
+    setTimeout(startTutorial, 400);
+  }
+}
+
+// Production: show only when contract status = pending_receipt
+// Mockup: always show on load
+window.addEventListener('load', () => {
+  document.getElementById('receiptModal').style.display = 'flex';
+});
+
+// ── Tutorial system ────────────────────────────────────
+const STEPS = [
+  {
+    elId: 'el-header',
+    title: 'Your Profile',
+    body: 'Your name and status are shown here. Tap the bell icon to see your notifications and reminders.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-loyalty',
+    title: 'Loyalty Progress',
+    body: 'Track your journey to Loyalty Loan eligibility. Pay on time every month to fill up the progress ring. Tap to learn more.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-payment',
+    title: 'Next Payment',
+    body: 'Your upcoming installment amount and due date. Tap "Pay Now" to make a payment instantly.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-btns',
+    title: 'Quick Actions',
+    body: '"See History" shows all your past payments. "Pay Now" takes you straight to the payment screen.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-bnav',
+    title: 'Navigation Bar',
+    body: 'Quickly jump between Home, Loyalty, Payment, Contract, and your Profile from here.',
+    arrow: 'bottom', offsetY: -8
+  },
+];
+
+let currentStep = 0;
+
+function startTutorial() {
+  currentStep = 0;
+  document.getElementById('tutorialOverlay').style.display = 'block';
+  showStep(currentStep);
+}
+
+function showStep(idx) {
+  const step     = STEPS[idx];
+  const overlay  = document.getElementById('tutorialOverlay');
+  const highlight= document.getElementById('tutHighlight');
+  const tooltip  = document.getElementById('tutTooltip');
+  const phone    = document.querySelector('.phone');
+  const phoneRect= phone.getBoundingClientRect();
+
+  // Get element rect relative to phone
+  const el = document.getElementById(step.elId);
+  if (!el) { nextStep(); return; }
+  const r = el.getBoundingClientRect();
+
+  const top    = r.top    - phoneRect.top;
+  const left   = r.left   - phoneRect.left;
+  const width  = r.width;
+  const height = r.height;
+  const PAD    = 6;
+
+  // Position highlight
+  highlight.style.top    = (top - PAD) + 'px';
+  highlight.style.left   = (left - PAD) + 'px';
+  highlight.style.width  = (width + PAD*2) + 'px';
+  highlight.style.height = (height + PAD*2) + 'px';
+
+  // Position tooltip
+  tooltip.className = 'tut-tooltip arrow-' + step.arrow;
+  if (step.arrow === 'top') {
+    tooltip.style.top  = (top + height + PAD + step.offsetY + 10) + 'px';
+    tooltip.style.bottom = 'auto';
+  } else {
+    tooltip.style.bottom = (phoneRect.height - top + PAD + Math.abs(step.offsetY) + 10) + 'px';
+    tooltip.style.top = 'auto';
+  }
+  tooltip.style.left = Math.min(Math.max(left - PAD, 8), phoneRect.width - 256) + 'px';
+
+  // Content
+  document.getElementById('tutTitle').textContent = step.title;
+  document.getElementById('tutBody').textContent  = step.body;
+  document.getElementById('tutCount').textContent = (idx + 1) + ' / ' + STEPS.length;
+
+  const nextBtn = document.getElementById('tutNextBtn');
+  if (idx === STEPS.length - 1) {
+    nextBtn.textContent = 'Done';
+  } else {
+    nextBtn.textContent = 'Next';
+  }
+}
+
+function nextStep() {
+  currentStep++;
+  if (currentStep >= STEPS.length) {
+    sessionStorage.setItem('tutorialScreen', 'loan');
+    endTutorial();
+    setTimeout(() => location.href = '../loan/loan-detail.html', 300);
+  } else {
+    showStep(currentStep);
+  }
+}
+
+function goToContract() {
+  location.href = '../loan/loan-detail.html';
+}
+
+function endTutorial() {
+  document.getElementById('tutorialOverlay').style.display = 'none';
+  sessionStorage.setItem('tutorialDone', '1');
+}
+
+// Allow restarting tutorial from Profile/Settings
+// Called externally via: sessionStorage.removeItem('tutorialDone'); location.href='home.html';
+</script>
 <script src="../navigator.js"></script>
 </body>
 </html>

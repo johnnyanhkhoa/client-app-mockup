@@ -11,24 +11,17 @@
 .back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;border-radius:8px}
 .topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
 .help-icon{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer}
-
-/* Tab bar */
 .tab-bar{background:var(--white);display:flex;padding:0 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 .tab{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s}
 .tab.active{color:var(--teal);border-bottom-color:var(--teal)}
-
 .body{flex:1;overflow-y:auto;padding:14px;scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
-
-/* Contract header */
 .contract-header{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .contract-name{font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px}
 .contract-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .contract-no{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:4px}
 .contract-date{font-size:12px;color:var(--text2)}
 .badge-active{background:#D1FAE5;color:#065F46;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
-
-/* Circle progress */
 .circle-section{display:flex;justify-content:center;margin:8px 0 16px}
 .circle-wrap{position:relative;width:100px;height:100px}
 .circle-wrap svg{transform:rotate(-90deg)}
@@ -37,20 +30,14 @@
 .circle-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;line-height:1.3}
 .circle-pct{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--text)}
 .circle-sub{font-size:10px;color:var(--text2);font-weight:600}
-
-/* Stats row */
 .stats-row{display:flex;justify-content:space-between;text-align:center;padding:12px 0;border-top:1px solid var(--border)}
 .stat-val{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text)}
 .stat-label{font-size:10px;color:var(--text2);margin-top:2px}
-
-/* Next payment box */
 .next-pay-box{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .next-due-label{font-size:12px;color:var(--text2);margin-bottom:4px}
 .next-due-date{font-weight:700;color:var(--text)}
 .next-amount{font-family:'Nunito',sans-serif;font-size:30px;font-weight:900;color:var(--text);margin:6px 0 14px}
 .next-amount span{font-size:14px;font-weight:600;color:var(--text2)}
-
-/* Contract links */
 .link-card{background:var(--white);border-radius:16px;overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .link-row{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
 .link-row:last-child{border-bottom:none}
@@ -59,11 +46,27 @@
 .link-text-wrap{flex:1}
 .link-title{font-size:13px;font-weight:700;color:var(--text)}
 .link-sub{font-size:11px;color:var(--text2);margin-top:1px}
-
-/* Bottom nav */
 .bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding:8px 0 16px;flex-shrink:0}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600}
 .ni.active{color:var(--teal)}
+.modal-base{position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.sheet{background:white;border-radius:20px 20px 0 0;padding:20px 20px 32px;width:100%;max-height:85%;overflow-y:auto}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+
+/* ── Tutorial ── */
+#tutorialOverlay{position:absolute;inset:0;z-index:300;pointer-events:none;display:none}
+.tut-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.65);pointer-events:all}
+.tut-highlight{position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,0.65);border:2px solid #00B894;transition:all 0.35s cubic-bezier(0.4,0,0.2,1);pointer-events:none;z-index:1}
+.tut-tooltip{position:absolute;background:white;border-radius:14px;padding:14px 16px;width:240px;box-shadow:0 8px 24px rgba(0,0,0,0.25);z-index:2;pointer-events:all;transition:all 0.3s ease}
+.tut-tooltip-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#1A1A2E;margin-bottom:4px}
+.tut-tooltip-body{font-size:12px;color:#6B7280;line-height:1.6;margin-bottom:12px}
+.tut-tooltip-footer{display:flex;align-items:center;justify-content:space-between}
+.tut-step-count{font-size:11px;color:#9CA3AF;font-weight:600}
+.tut-btn-row{display:flex;gap:8px}
+.tut-skip{font-size:12px;color:#9CA3AF;background:none;border:none;cursor:pointer;font-family:'Nunito Sans',sans-serif;padding:0}
+.tut-next{font-size:12px;font-weight:700;color:white;background:#00B894;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;font-family:'Nunito Sans',sans-serif}
+.tut-tooltip.arrow-top::before{content:'';position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:10px solid white;top:-10px;left:24px}
+.tut-tooltip.arrow-bottom::before{content:'';position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid white;bottom:-10px;left:24px}
 </style>
 </head>
 <body>
@@ -75,13 +78,14 @@
       <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#1A1A2E" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#1A1A2E"/></svg>
     </span>
   </div>
+
   <div class="screen">
     <div class="topbar">
       <button class="back-btn" onclick="location.href='../home/home.html'">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 18L7 11L14 4" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <div class="topbar-title">Contract Details</div>
-      <div class="help-icon">
+      <div class="topbar-title">Agreement Details</div>
+      <div class="help-icon" onclick="showHelp()">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#9CA3AF" stroke-width="1.3"/><path d="M7 9V7.5C8 7.5 9 6.8 9 5.5C9 4.2 8.1 3.5 7 3.5C6 3.5 5.2 4.1 5 5" stroke="#9CA3AF" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="10.5" r="0.6" fill="#9CA3AF"/></svg>
       </div>
     </div>
@@ -92,11 +96,10 @@
     </div>
 
     <div class="body">
-      <!-- Info Tab -->
       <div id="content-info">
-        <div class="contract-header">
+        <div class="contract-header" id="el-contract-header">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-            <div class="contract-name">Motorcycle Hire-Purchase</div>
+            <div class="contract-name">Motorcycle Rental Agreement</div>
             <span class="badge-active">Active</span>
           </div>
           <div class="contract-meta">
@@ -106,8 +109,6 @@
             </div>
             <div class="contract-date">Period: 30/01/2026</div>
           </div>
-
-          <!-- Circular progress -->
           <div class="circle-section">
             <div class="circle-wrap">
               <svg width="100" height="100" viewBox="0 0 100 100">
@@ -120,8 +121,7 @@
               </div>
             </div>
           </div>
-
-          <div class="stats-row">
+          <div class="stats-row" id="el-stats">
             <div><div class="stat-val">20,000,000</div><div class="stat-label">Paid</div></div>
             <div style="border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0 16px">
               <div class="stat-val" style="color:var(--teal)">500,000</div><div class="stat-label">Remaining</div>
@@ -130,49 +130,31 @@
           </div>
         </div>
 
-        <!-- Next payment -->
-        <div class="next-pay-box">
+        <div class="next-pay-box" id="el-next-pay">
           <div class="next-due-label">Next payment due: <span class="next-due-date">14 April 2026</span></div>
           <div class="next-amount">65,000 <span>MMK</span></div>
           <button class="btn btn-primary" onclick="location.href='../payment/payment.html'">Pay Now</button>
         </div>
 
-        <!-- Contract links -->
-        <div class="link-card">
+        <div class="link-card" id="el-links">
           <div class="link-row" onclick="location.href='contract-pdf.html'">
-            <div class="link-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="1.5" width="12" height="15" rx="2" stroke="#00B894" stroke-width="1.4"/><path d="M6 6H12M6 9H12M6 12H9" stroke="#00B894" stroke-width="1.4" stroke-linecap="round"/></svg>
-            </div>
-            <div class="link-text-wrap">
-              <div class="link-title">Contract & Terms PDF</div>
-              <div class="link-sub">View your hire-purchase agreement</div>
-            </div>
+            <div class="link-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="1.5" width="12" height="15" rx="2" stroke="#00B894" stroke-width="1.4"/><path d="M6 6H12M6 9H12M6 12H9" stroke="#00B894" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+            <div class="link-text-wrap"><div class="link-title">Rental Agreement PDF</div><div class="link-sub">View your Rental Agreement</div></div>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="link-row" onclick="location.href='loan-schedule.html'">
-            <div class="link-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="13" rx="2" stroke="#00B894" stroke-width="1.4"/><path d="M6 1.5V4.5M12 1.5V4.5M2 7.5H16" stroke="#00B894" stroke-width="1.4" stroke-linecap="round"/><path d="M5.5 11H8M10 11H12.5" stroke="#00B894" stroke-width="1.4" stroke-linecap="round"/></svg>
-            </div>
-            <div class="link-text-wrap">
-              <div class="link-title">Payment Schedule</div>
-              <div class="link-sub">View all 12 installment dates</div>
-            </div>
+            <div class="link-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="13" rx="2" stroke="#00B894" stroke-width="1.4"/><path d="M6 1.5V4.5M12 1.5V4.5M2 7.5H16" stroke="#00B894" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+            <div class="link-text-wrap"><div class="link-title">Payment Schedule</div><div class="link-sub">View all 12 installment dates</div></div>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="link-row" onclick="location.href='payment-tips.html'">
-            <div class="link-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#00B894" stroke-width="1.4"/><path d="M9 8V13M9 6V6.5" stroke="#00B894" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </div>
-            <div class="link-text-wrap">
-              <div class="link-title">Payment Instructions</div>
-              <div class="link-sub">How to pay & accepted methods</div>
-            </div>
+            <div class="link-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#00B894" stroke-width="1.4"/><path d="M9 8V13M9 6V6.5" stroke="#00B894" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <div class="link-text-wrap"><div class="link-title">Payment Instructions</div><div class="link-sub">How to pay & accepted methods</div></div>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
       </div>
 
-      <!-- History Tab (hidden initially) -->
       <div id="content-hist" style="display:none">
         <div style="background:var(--white);border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)">
           <div style="display:flex;background:#F9FAFB;padding:10px 14px;font-size:11px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border)">
@@ -182,7 +164,6 @@
             <div style="flex:1;text-align:right">Status</div>
             <div style="width:24px"></div>
           </div>
-          <!-- Rows will be injected by JS -->
         </div>
         <div style="background:var(--teal);border-radius:12px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;align-items:center">
           <div style="font-size:13px;font-weight:700;color:white">Total Remaining</div>
@@ -191,7 +172,6 @@
       </div>
     </div>
 
-    <!-- Bottom Nav -->
     <div class="bnav">
       <div class="ni" onclick="location.href='../home/home.html'">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3L19 9.5V19C19 19.552 18.552 20 18 20H14V15H8V20H4C3.448 20 3 19.552 3 19V9.5Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/></svg>
@@ -215,17 +195,79 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- Payment Detail Modal -->
-<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center" onclick="closeModal()">
-  <div id="modal-sheet" onclick="event.stopPropagation()" style="background:white;border-radius:20px 20px 0 0;padding:20px 20px 32px;width:390px;max-width:100%">
-    <div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px"></div>
-    <div id="modal-content"></div>
+  <!-- ── Help Modal ── -->
+  <div id="help-overlay" class="modal-base" style="display:none" onclick="closeHelp()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:16px">About This Screen</div>
+      <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Contract Progress</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">The circular chart shows how much of your total contract value you have paid so far. Green indicates completed payments.</div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Amount Breakdown</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--text)">Paid</strong> — total amount you have successfully paid to date.<br>
+          <strong style="color:var(--text)">Remaining</strong> — balance still outstanding on your contract.<br>
+          <strong style="color:var(--text)">Total Amount</strong> — full contract value including all fees.
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Payment History Tab</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Tap <strong style="color:var(--text)">Payment History</strong> to see all installments. Each row shows the due date, amount, and status. Tap any row for the full breakdown.</div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Payment Status</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span style="background:#D1FAE5;color:#065F46;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap">Paid</span>
+          <span style="font-size:13px;color:var(--text2)">Payment confirmed and recorded</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span style="background:#FEF3C7;color:#92400E;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap">Due</span>
+          <span style="font-size:13px;color:var(--text2)">Payment is due — please pay now</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap">Upcoming</span>
+          <span style="font-size:13px;color:var(--text2)">Scheduled for a future date</span>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- ── Payment Detail Modal ── -->
+  <div id="modal-overlay" class="modal-base" style="display:none" onclick="closeModal()">
+    <div id="modal-sheet" class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ── Tutorial Overlay ── -->
+  <div id="tutorialOverlay">
+    <div class="tut-backdrop" id="tutBackdrop"></div>
+    <div class="tut-highlight" id="tutHighlight"></div>
+    <div class="tut-tooltip" id="tutTooltip">
+      <div class="tut-tooltip-title" id="tutTitle"></div>
+      <div class="tut-tooltip-body" id="tutBody"></div>
+      <div class="tut-tooltip-footer">
+        <span class="tut-step-count" id="tutCount"></span>
+        <div class="tut-btn-row">
+          <button class="tut-skip" onclick="endTutorial()">Skip</button>
+          <button class="tut-next" id="tutNextBtn" onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.phone -->
 
 <script>
+// ── Help modal ─────────────────────────────────────────
+function showHelp() { document.getElementById('help-overlay').style.display = 'flex'; }
+function closeHelp() { document.getElementById('help-overlay').style.display = 'none'; }
+
+// ── Tab switch ──────────────────────────────────────────
 function switchTab(t) {
   document.getElementById('content-info').style.display = t==='info' ? 'block' : 'none';
   document.getElementById('content-hist').style.display = t==='hist' ? 'block' : 'none';
@@ -234,19 +276,20 @@ function switchTab(t) {
   if (t==='hist') buildSchedule();
 }
 
+// ── Payment data ────────────────────────────────────────
 const payments = [
-  {no:1, date:'02/01/2026', amount:65000, status:'paid', via:'KBZPay', paidDate:'14 Jan 2026 | 10:22'},
-  {no:2, date:'02/02/2026', amount:65000, status:'paid', via:'KBZPay', paidDate:'14 Feb 2026 | 13:04'},
-  {no:3, date:'02/03/2026', amount:65000, status:'paid', via:'Wave Money', paidDate:'14 Mar 2026 | 09:45'},
-  {no:4, date:'02/04/2026', amount:65000, status:'due'},
-  {no:5, date:'02/05/2026', amount:65000, status:'upcoming'},
-  {no:6, date:'02/06/2026', amount:65000, status:'upcoming'},
-  {no:7, date:'02/07/2026', amount:65000, status:'upcoming'},
-  {no:8, date:'02/08/2026', amount:65000, status:'upcoming'},
-  {no:9, date:'02/09/2026', amount:65000, status:'upcoming'},
-  {no:10,date:'02/10/2026', amount:65000, status:'upcoming'},
-  {no:11,date:'02/11/2026', amount:65000, status:'upcoming'},
-  {no:12,date:'02/12/2026', amount:65000, status:'upcoming'},
+  {no:1,date:'02/01/2026',amount:65000,status:'paid',via:'KBZPay',paidDate:'14 Jan 2026 | 10:22'},
+  {no:2,date:'02/02/2026',amount:65000,status:'paid',via:'KBZPay',paidDate:'14 Feb 2026 | 13:04'},
+  {no:3,date:'02/03/2026',amount:65000,status:'paid',via:'Wave Money',paidDate:'14 Mar 2026 | 09:45'},
+  {no:4,date:'02/04/2026',amount:65000,status:'due'},
+  {no:5,date:'02/05/2026',amount:65000,status:'upcoming'},
+  {no:6,date:'02/06/2026',amount:65000,status:'upcoming'},
+  {no:7,date:'02/07/2026',amount:65000,status:'upcoming'},
+  {no:8,date:'02/08/2026',amount:65000,status:'upcoming'},
+  {no:9,date:'02/09/2026',amount:65000,status:'upcoming'},
+  {no:10,date:'02/10/2026',amount:65000,status:'upcoming'},
+  {no:11,date:'02/11/2026',amount:65000,status:'upcoming'},
+  {no:12,date:'02/12/2026',amount:65000,status:'upcoming'},
 ];
 
 function buildSchedule() {
@@ -255,7 +298,6 @@ function buildSchedule() {
   wrap.innerHTML = '';
   wrap.appendChild(header);
   payments.forEach(p => {
-    const row = document.createElement('div');
     const bg = p.status==='due' ? '#FFFBEB' : 'white';
     const dateColor = p.status==='paid' ? 'var(--teal)' : p.status==='due' ? '#F59E0B' : 'var(--text)';
     const badge = p.status==='paid'
@@ -263,21 +305,20 @@ function buildSchedule() {
       : p.status==='due'
       ? '<span style="background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">Due</span>'
       : '<span style="font-size:11px;color:var(--text3)">Upcoming</span>';
+    const row = document.createElement('div');
     row.style.cssText = `display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);background:${bg};cursor:pointer`;
     row.innerHTML = `
       <div style="flex:.3;font-size:12px;font-weight:600;color:var(--text2)">${p.no}</div>
       <div style="flex:1.2;font-size:12px;font-weight:700;color:${dateColor}">${p.date}</div>
       <div style="flex:1;text-align:right;font-size:12px;font-weight:600;color:var(--text)">${p.amount.toLocaleString()}</div>
       <div style="flex:1;text-align:right">${badge}</div>
-      <svg style="margin-left:4px;flex-shrink:0" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 10L9 7L5 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    `;
+      <svg style="margin-left:4px;flex-shrink:0" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 10L9 7L5 4" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     row.onclick = () => showDetail(p);
     wrap.appendChild(row);
   });
 }
 
 function showDetail(p) {
-  const overlay = document.getElementById('modal-overlay');
   const content = document.getElementById('modal-content');
   const breakdown = `
     <div style="background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:12px">
@@ -287,8 +328,7 @@ function showDetail(p) {
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:var(--text2)">Other fee</span><span style="font-weight:600">1,000 MMK</span></div>
       <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Discount</span><span style="color:var(--teal);font-weight:700">0 MMK</span></div>
     </div>`;
-
-  if (p.status === 'paid') {
+  if (p.status==='paid') {
     content.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <div style="display:flex;align-items:center;gap:8px">
@@ -298,15 +338,12 @@ function showDetail(p) {
         <span style="font-size:17px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--text)">${p.amount.toLocaleString()} MMK</span>
       </div>
       <div style="font-size:12px;color:var(--text2);margin-bottom:2px">Paid on: ${p.paidDate}</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:0">Via: <strong>${p.via}</strong></div>
-      ${breakdown}`;
-  } else if (p.status === 'due') {
+      <div style="font-size:12px;color:var(--text2)">Via: <strong>${p.via}</strong></div>${breakdown}`;
+  } else if (p.status==='due') {
     content.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <div style="display:flex;align-items:center;gap:8px">
-          <div style="width:22px;height:22px;border-radius:50%;background:#FEF3C7;display:flex;align-items:center;justify-content:center">
-            <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B"></div>
-          </div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#FEF3C7;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;border-radius:50%;background:#F59E0B"></div></div>
           <span style="font-size:15px;font-weight:800;color:#92400E;font-family:'Nunito',sans-serif">Due Now</span>
         </div>
         <span style="font-size:17px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--text)">${p.amount.toLocaleString()} MMK</span>
@@ -323,15 +360,111 @@ function showDetail(p) {
         </div>
         <span style="font-size:17px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--text)">${p.amount.toLocaleString()} MMK</span>
       </div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:14px">Scheduled: <strong>${p.date}</strong></div>
-      ${breakdown}`;
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px">Scheduled: <strong>${p.date}</strong></div>${breakdown}`;
   }
-  overlay.style.display = 'flex';
+  document.getElementById('modal-overlay').style.display = 'flex';
 }
 
-function closeModal() {
-  document.getElementById('modal-overlay').style.display = 'none';
+function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+
+// ── Tutorial ────────────────────────────────────────────
+const STEPS = [
+  {
+    elId: 'el-contract-header',
+    title: 'Your Contract',
+    body: 'This shows your Rental Agreement details — contract number, status, and how much you have paid so far. The green circle tracks your overall progress.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-stats',
+    title: 'Payment Summary',
+    body: 'Paid is what you have covered so far. Remaining is what is still outstanding. Total Amount is the full contract value.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-next-pay',
+    title: 'Next Installment',
+    body: 'Your upcoming payment amount and due date. Tap "Pay Now" to go directly to the payment screen.',
+    arrow: 'top', offsetY: 8
+  },
+  {
+    elId: 'el-links',
+    title: 'Contract Documents',
+    body: 'View your full Rental Agreement PDF, see all 12 installment dates in the schedule, or check payment instructions for each method.',
+    arrow: 'bottom', offsetY: -8
+  },
+];
+
+let currentStep = 0;
+
+function startTutorial() {
+  currentStep = 0;
+  document.getElementById('tutorialOverlay').style.display = 'block';
+  showStep(currentStep);
 }
+
+function showStep(idx) {
+  const step      = STEPS[idx];
+  const phone     = document.querySelector('.phone');
+  const phoneRect = phone.getBoundingClientRect();
+  const el        = document.getElementById(step.elId);
+  if (!el) { nextStep(); return; }
+
+  // Scroll element into view inside .body
+  el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  setTimeout(() => {
+    const r    = el.getBoundingClientRect();
+    const top  = r.top  - phoneRect.top;
+    const left = r.left - phoneRect.left;
+    const PAD  = 6;
+
+    const hl = document.getElementById('tutHighlight');
+    hl.style.top    = (top - PAD) + 'px';
+    hl.style.left   = (left - PAD) + 'px';
+    hl.style.width  = (r.width  + PAD*2) + 'px';
+    hl.style.height = (r.height + PAD*2) + 'px';
+
+    const tt = document.getElementById('tutTooltip');
+    tt.className = 'tut-tooltip arrow-' + step.arrow;
+
+    if (step.arrow === 'top') {
+      tt.style.top    = (top + r.height + PAD + 10 + step.offsetY) + 'px';
+      tt.style.bottom = 'auto';
+    } else {
+      tt.style.bottom = (phoneRect.height - top + PAD + 10 + Math.abs(step.offsetY)) + 'px';
+      tt.style.top    = 'auto';
+    }
+    tt.style.left = Math.min(Math.max(left - PAD, 8), phoneRect.width - 256) + 'px';
+
+    document.getElementById('tutTitle').textContent = step.title;
+    document.getElementById('tutBody').textContent  = step.body;
+    document.getElementById('tutCount').textContent = (idx + 1) + ' / ' + STEPS.length;
+    document.getElementById('tutNextBtn').textContent = idx === STEPS.length - 1 ? 'Done' : 'Next';
+  }, 120);
+}
+
+function nextStep() {
+  currentStep++;
+  if (currentStep >= STEPS.length) {
+    endTutorial();
+  } else {
+    showStep(currentStep);
+  }
+}
+
+function endTutorial() {
+  document.getElementById('tutorialOverlay').style.display = 'none';
+  sessionStorage.setItem('tutorialDone', '1');
+}
+
+// Start tutorial if flagged from home
+window.addEventListener('load', () => {
+  if (sessionStorage.getItem('tutorialScreen') === 'loan') {
+    sessionStorage.removeItem('tutorialScreen');
+    setTimeout(startTutorial, 400);
+  }
+});
 </script>
 <script src="../navigator.js"></script>
 </body>
