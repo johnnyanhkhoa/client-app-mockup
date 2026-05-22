@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>R2O — Loyalty Loan</title>
+<title>R2O — Loyalty Rewards</title>
 <link rel="stylesheet" href="../shared.css"/>
 <style>
 .screen{flex:1;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
@@ -109,8 +109,8 @@
         </div>
 
         <div class="content">
-          <div class="section-title">About Loyalty Loan</div>
-          <div class="section-sub">Financial regulations require us to verify your eligibility. Clients who maintain a perfect payment record become eligible for our exclusive Loyalty Loan — a special financing product at preferential rates.</div>
+          <div class="section-title">About Loyalty Rewards Program</div>
+          <div class="section-sub">Financial regulations require us to verify your eligibility. Clients who maintain a perfect payment record become eligible for our exclusive Loyalty Rewards — a special financing product at preferential rates.</div>
 
           <!-- Challenge list — toggled by eligibility -->
           <div class="challenge-list" id="challengeList"></div>
@@ -267,7 +267,7 @@ function buildStatusCard() {
     card.className = 'status-card eligible';
     icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0"><circle cx="11" cy="11" r="10" fill="#10B981"/><path d="M6 11L9.5 14.5L16 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     text.className = 'status-text eligible';
-    text.innerHTML = `<strong>You are eligible!</strong> You can now apply for the Loyalty Loan. Our team will contact you to guide you through the process.`;
+    text.innerHTML = `<strong>You are eligible!</strong> You can now apply for the Loyalty Rewards program. Our team will contact you to guide you through the process.`;
     btn.className = 'apply-btn enabled';
   } else {
     card.className = 'status-card ineligible';
@@ -281,7 +281,7 @@ function buildStatusCard() {
 function buildHowSubtext() {
   const el = document.getElementById('howSubtext');
   if (IS_ELIGIBLE) {
-    el.textContent = 'You are now eligible to apply for the Loyalty Loan. Follow the steps below to complete your application.';
+    el.textContent = 'You are now eligible to apply for the Loyalty Rewards program. Follow the steps below to complete your application.';
     document.getElementById('applyBtn').className = 'apply-btn enabled';
   } else {
     el.textContent = 'You will be notified by R2O when you become eligible. Here is how the application process works so you are prepared.';
